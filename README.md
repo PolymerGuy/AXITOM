@@ -5,7 +5,7 @@
 [![CircleCI](https://circleci.com/gh/PolymerGuy/AXITOM.svg?style=svg)](https://circleci.com/gh/PolymerGuy/AXITOM)
 [![codecov](https://codecov.io/gh/PolymerGuy/AXITOM/branch/master/graph/badge.svg)](https://codecov.io/gh/PolymerGuy/AXITOM)
 [![MIT License][license-shield]][license-url]
-
+[![Documentation Status](https://readthedocs.org/projects/axitom/badge/?version=latest)](https://mudic.readthedocs.io/en/latest/?badge=latest)
 
 
 <!-- PROJECT LOGO -->
