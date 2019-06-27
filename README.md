@@ -33,20 +33,6 @@
 
 
 
-<!-- TABLE OF CONTENTS -->
-## Table of Contents
-
-* [About the Project](#about-the-project)
-  * [Built With](#built-with)
-* [Getting Started](#getting-started)
-  * [Prerequisites](#prerequisites)
-  * [Installation](#installation)
-* [Usage](#usage)
-* [Contributing](#contributing)
-* [License](#license)
-* [Contact](#contact)
-* [Acknowledgements](#acknowledgements)
-
 
 
 <!-- ABOUT THE PROJECT -->
@@ -65,9 +51,10 @@ A list of commonly used resources that I find helpful are listed in the acknowle
 
 ### Built With
 This section should list any major frameworks that you built your project using. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
-* [Bootstrap](https://getbootstrap.com)
-* [JQuery](https://jquery.com)
-* [Laravel](https://laravel.com)
+* [Numpy](https://getbootstrap.com)
+* [Scipy](https://jquery.com)
+* [Scikit-image](https://laravel.com)
+* [Matplotlib](https://laravel.com)
 
 
 
@@ -77,13 +64,7 @@ This section should list any major frameworks that you built your project using.
 This is an example of how you may give instructions on setting up your project locally.
 To get a local copy up and running follow these simple example steps.
 
-### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
-* npm
-```sh
-npm install npm@latest -g
-```
 
 ### Installation
 
@@ -101,28 +82,26 @@ Prerequisites:
 
 On the command line, check if python is available::
 
-$ python --version
+    $ python --version
 
 
 If this command does not return the version of you python installation,
 you need to fix this first.
 
 If everything seems to work, you install the package in your global python 
-environment (Not recommend) via pip::
+environment (Not recommend) via pip:
 
-$ pip install axitom
+    $ pip install axitom
 
 and you are good to go!
 
 We recommend that you always use virtual environments by virtualenv or by Conda env.
 
-Virtual env::
-
-$ cd /path/to/your/project
-$ python -m virtualenv env
-$ source ./env/bin/activate #On Linux and Mac OS
-$ env\Scripts\activate.bat #On Windows
-$ pip install axitom
+    $ cd /path/to/your/project
+    $ python -m virtualenv env
+    $ source ./env/bin/activate #On Linux and Mac OS
+    $ env\Scripts\activate.bat #On Windows
+    $ pip install axitom
 
 
 By cloning the repo:
@@ -135,27 +114,21 @@ Prerequisites:
     This toolkit is tested on Python 2.7x and Python 3.7
 
 Installing:
-    Start to clone this repo to your preferred location::
+Start to clone this repo to your preferred location
 
     $ git init
     $ git clone https://github.com/PolymerGuy/axitom.git
-
-
-
-    We recommend that you always use virtual environments, either by virtualenv or by Conda env
-
-    Virtual env::
+    
+We recommend that you always use virtual environments, either by virtualenv or by Conda env
     
     $ python -m virtualenv env
     $ source ./env/bin/activate #On Linux and Mac OS
     $ env\Scripts\activate.bat #On Windows
     $ pip install -r requirements.txt
 
-
-    You can now run an example::
-    $ python path_to_axitom/Examples/quick_start.py
-
-
+You can now run an example::
+    
+    $ python <path_to_axitom>/Examples/quick_start.py
 
 Running the tests
 ------------------
