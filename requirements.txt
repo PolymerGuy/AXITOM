@@ -5,3 +5,4 @@ coverage
 pytest-cov
 codecov
 matplotlib
+scikit-image
