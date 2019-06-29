@@ -58,14 +58,39 @@ def normalize_grey_scales(image):
 
 Reconimg_crop = Reconimg.transpose()[:,::-1][1:,:400]
 
-plt.imshow(Reconimg.transpose(), cmap=plt.cm.magma)
-plt.clim(vmin=0.0, vmax=0.045)
-plt.figure()
-plt.imshow(correct.transpose(), cmap=plt.cm.magma)
+# plt.imshow(Reconimg.transpose(), cmap=plt.cm.magma)
+# plt.clim(vmin=0.0, vmax=0.045)
+# plt.figure()
+# plt.imshow(correct.transpose(), cmap=plt.cm.magma)
 
 Reconimg_crop_norm = normalize_grey_scales(Reconimg_crop)
 correct_norm = normalize_grey_scales(correct.transpose())
 
+
+
+
+
+
 plt.figure()
-plt.imshow(Reconimg_crop_norm[::-1,:]-correct_norm)
+plt.subplot(1, 3, 1)
+plt.title("Nikon CT-PRO")
+plt.imshow(correct_norm,cmap=plt.cm.magma)
+plt.axis('off')
+plt.clim(vmin=0.5,vmax=1.0)
+plt.colorbar()
+
+plt.subplot(1, 3, 2)
+plt.title("AXITOM")
+plt.imshow(Reconimg_crop_norm[::-1,:],cmap=plt.cm.magma)
+plt.axis('off')
+plt.clim(vmin=0.5,vmax=1.0)
+plt.colorbar()
+
+plt.subplot(1, 3, 3)
+plt.title("Absolute deviation")
+plt.imshow(np.abs(Reconimg_crop_norm[::-1,:]-correct_norm),cmap=plt.cm.magma)
+plt.axis('off')
+plt.clim(vmin=0,vmax=0.05)
+plt.colorbar()
+plt.tight_layout()
 plt.show()

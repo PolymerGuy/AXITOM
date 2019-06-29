@@ -23,3 +23,8 @@ This is the start page
 
    FDK
 
+.. toctree::
+   :maxdepth: 2
+   :caption: Verification:
+
+   Comparison
