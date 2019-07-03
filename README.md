@@ -40,11 +40,11 @@
 This python package provides tools for axis-symmetric cone beam computed tomography. The reconstruction is performed by a Feldkamp David Kress algorihtm
 which have been adapted such that is exploits the axis-symmetric nature of the the tomogram.
 
-There are plenty of excellent frameworks for tomographic reconstruction, such as:
+This toolkit has a highly spezialised usage, and there are plenty of more general and excellent frameworks for tomographic reconstruction, such as:
  * [TomoPy](https://github.com/tomopy/tomopy) (General computed tomography, cone and parallel beam geometry)
  * [PyAbel](https://github.com/PyAbel/PyAbel) (Computed tomography based on the inverse Abel transform, parallel beam geometry)
  
- However, this project aims at providing a simple an accessible tool-kit for forward projection and reconstruction of 
+ This project aims at providing a simple an accessible tool-kit for forward projection and reconstruction of 
  axis-symmetric tomograms based on a conical beam geometry.
 
 ### Built With
