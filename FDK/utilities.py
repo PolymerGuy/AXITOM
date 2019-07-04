@@ -4,7 +4,7 @@ import os
 from imageio import imread
 
 
-def find_axis_of_rotation(radiogram, background_internsity=0.9):
+def find_center_of_gravity_in_radiogram(radiogram, background_internsity=0.9):
     """ Find axis of rotation in the radiogram.
         This is done by binarization of the image into object and background
         and determining the center of gravity of the object.
@@ -20,9 +20,9 @@ def find_axis_of_rotation(radiogram, background_internsity=0.9):
         Returns
         -------
         float64
-            The center of gravity in the x-direction
+            The center of gravity in the u-direction
         float64
-            The center of gravity in the y-direction
+            The center of gravity in the v-direction
 
         """
     n, m = np.shape(radiogram)
@@ -34,6 +34,44 @@ def find_axis_of_rotation(radiogram, background_internsity=0.9):
     center_of_grav_x = np.average(np.sum(xs * covered_pixels, axis=1) / np.sum(covered_pixels, axis=1)) - m / 2.
     center_of_grav_y = np.average(np.sum(ys * covered_pixels, axis=0) / np.sum(covered_pixels, axis=0)) - n / 2.
     return center_of_grav_x, center_of_grav_y
+
+
+def object_center_of_rotation(radiogram, param, background_internsity=0.9, method="center_of_gravity"):
+    """ Find the axis of rotation of the object pictures in the radiogram
+        This is done by determining the center of rotation of the radiogram and scaling the coordinates
+        to object coordinates
+
+        Parameters
+        ----------
+        radiogram : ndarray
+            The radiogram, normalized between 0 and 1
+        param : object
+            The parameters used for the tomographic reconstruction
+        background_internsity : float
+            The background intensity threshold
+        method : string
+            The background intensity threshold
+
+
+        Returns
+        -------
+        float64
+            The center of gravity in the x-direction
+        float64
+            The center of gravity in the y-direction
+
+        """
+    if radiogram.ndim != 2:
+        raise ValueError("Invalid radiogram shape. It has to be a 2d numpy array")
+
+    if method == "center_of_gravity":
+        center_x,center_y = find_center_of_gravity_in_radiogram(radiogram,background_internsity)
+    else:
+        raise ValueError("Invalid method")
+
+    scale = (param.source_to_object_dist / param.source_to_detector_dist) * param.pixel_size_u
+
+    return scale * center_x, scale * center_y
 
 
 def rotate_coordinates(xs_array, ys_array, angle_rad):

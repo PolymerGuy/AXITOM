@@ -7,7 +7,6 @@ from scipy.ndimage.filters import median_filter
 
 def main():
     param = fdk.param_from_xtekct("./example_data/R02_01.xtekct")
-
     file_names = [r"R02_01.tif"]
 
     for i, file_name in enumerate(file_names):
@@ -21,10 +20,8 @@ def main():
 
         radiogram = median_filter(radiogram, size=20)
 
-        _, center_offset = fdk.find_axis_of_rotation(radiogram, background_internsity=0.9)
-        print(center_offset)
-        param.center_of_rot_y = center_offset * (
-                param.source_to_object_dist / param.source_to_detector_dist) * param.pixel_size_u
+        _, center_offset = fdk.object_center_of_rotation(radiogram, param,background_internsity=0.9)
+        param.center_of_rot_y = center_offset
 
         param.update_calculations()
 

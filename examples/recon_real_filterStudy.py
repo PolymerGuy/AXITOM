@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from skimage.io import imread
 from FDK.parse import parse_xtekct_file
-from FDK.utilities import find_axis_of_rotation
+from FDK.utilities import find_center_of_gravity_in_radiogram
 import natsort
 from skimage.restoration import estimate_sigma, denoise_bilateral, wiener
 from skimage.restoration.non_local_means import denoise_nl_means
@@ -65,7 +65,7 @@ def main():
             # plt.imshow(roi)
             # plt.show(block=True)
 
-            _, center_offset = find_axis_of_rotation(roi, background_internsity=0.9)
+            _, center_offset = find_center_of_gravity_in_radiogram(roi, background_internsity=0.9)
             param.center_of_rot_x = center_offset * (
                         param.source_to_object_dist / param.source_to_detector_dist) * param.pixel_size_u
             # param.dang = 360./1700.

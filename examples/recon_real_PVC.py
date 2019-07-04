@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from skimage.io import imread
 from FDK.parse import parse_xtekct_file
-from FDK.utilities import find_axis_of_rotation
+from FDK.utilities import find_center_of_gravity_in_radiogram
 
 from skimage.restoration import estimate_sigma, denoise_bilateral,wiener
 from scipy.ndimage.filters import median_filter,gaussian_filter
@@ -51,7 +51,7 @@ def main():
             print("Sigma after filtering", estimate_sigma(radiogram))
 
             roi = radiogram
-            _, center_offset = find_axis_of_rotation(roi,background_internsity=0.95)
+            _, center_offset = find_center_of_gravity_in_radiogram(roi, background_internsity=0.95)
             param.pixel_offset_u = -center_offset
             #param.dang = 360./1700.
             param.update_calculations()

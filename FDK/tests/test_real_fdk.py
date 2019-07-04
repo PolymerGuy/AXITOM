@@ -33,7 +33,7 @@ def main():
 
         print("Sigma after filtering", estimate_sigma(radiogram))
 
-        _, center_offset = fdk.find_axis_of_rotation(radiogram, background_internsity=0.9)
+        _, center_offset = fdk.find_center_of_gravity_in_radiogram(radiogram, background_internsity=0.9)
         param.center_of_rot_y = center_offset * (
                     param.source_to_object_dist / param.source_to_detector_dist) * param.pixel_size_u
 
