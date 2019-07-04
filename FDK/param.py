@@ -75,9 +75,12 @@ class Param(object):
                                        dtype=np.float) * self.pixel_size_v + self.pixel_offset_v * self.pixel_size_v
 
 
-def param_from_xtekct(file_path):
 
-    inputfile = parse_xtekct_file(file_path)
+
+def param_from_xtekct(path):
+
+    inputfile = parse_xtekct_file(path)
+
     param = Param()
 
     try:
