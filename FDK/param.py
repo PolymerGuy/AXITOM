@@ -1,5 +1,5 @@
 import numpy as np
-
+from parse import parse_xtekct_file
 
 class Param(object):
 
@@ -19,7 +19,6 @@ class Param(object):
         self.detector_size_v = 400.
         self.source_to_detector_dist = 1127.464
         self.source_to_object_dist = 76.7511959075928
-        self.roation_dir = -1
         self.angular_inc = 1.
 
         self.pixel_offset_u = 0
@@ -27,7 +26,7 @@ class Param(object):
 
         self.center_of_rot_y = 0.0
 
-        self.projection_angs = np.arange(0., 360, self.angular_inc) * self.roation_dir
+        self.projection_angs = np.arange(0., 360, self.angular_inc)
         self.n_projections = len(self.projection_angs)
 
         self.voxel_size_x = self.object_size_x / self.n_voxels_x
@@ -49,10 +48,11 @@ class Param(object):
         self.detector_vs = np.linspace(-self.n_pixels_v / 2., self.n_pixels_v / 2., self.n_pixels_v,
                                        dtype=np.float) * self.pixel_size_v + self.pixel_offset_v * self.pixel_size_v
 
-    def update_calculations(self):
+
+    def update_internals(self):
         # Calculated
 
-        self.projection_angs = np.arange(0., 360, self.angular_inc) * self.roation_dir
+        self.projection_angs = np.arange(0., 360, self.angular_inc)
         self.n_projections = len(self.projection_angs)
 
         self.voxel_size_x = self.object_size_x / self.n_voxels_x
@@ -75,7 +75,9 @@ class Param(object):
                                        dtype=np.float) * self.pixel_size_v + self.pixel_offset_v * self.pixel_size_v
 
 
-def param_from_xtekct(inputfile):
+def config_from_xtekct(file_path):
+
+    inputfile = parse_xtekct_file(file_path)
     param = Param()
 
     try:

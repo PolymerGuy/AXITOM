@@ -1,4 +1,4 @@
-from FDK.param import param_from_xtekct
+from FDK.param import config_from_xtekct
 from FDK.backprojection import fdk
 import numpy as np
 from FDK.parse import parse_xtekct_file
@@ -11,13 +11,13 @@ import matplotlib.pyplot as plt
 
 def main():
     inputfile = parse_xtekct_file("example_data/radiogram.xtekct")
-    param = param_from_xtekct(inputfile)
+    param = config_from_xtekct(inputfile)
     param.n_voxels_x = 500
     param.n_voxels_y = 500
     param.n_voxels_z = 500
     param.n_pixels_u = 500
     param.n_pixels_v = 500
-    param.update_calculations()
+    param.update_internals()
 
     volume = barrel(500)
 
