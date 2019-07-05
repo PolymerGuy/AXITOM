@@ -1,38 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
-from skimage.io import imread
 import FDK as fdk
 from scipy.ndimage.filters import median_filter
-
-
-def main():
-    param = fdk.param_from_xtekct("./example_data/R02_01.xtekct")
-    file_names = [r"R02_01.tif"]
-
-    for i, file_name in enumerate(file_names):
-        print("Processing file nr %i" % i)
-        radiogram = fdk.read_image(r"./example_data/" + file_name)
-
-        # Half hearted I/I0
-        radiogram = radiogram / np.max(radiogram)
-        radiogram[:250, :] = 0.95
-        radiogram[1800:, :] = 0.95
-
-        radiogram = median_filter(radiogram, size=20)
-
-        _, center_offset = fdk.object_center_of_rotation(radiogram, param,background_internsity=0.9)
-        param.center_of_rot_y = center_offset
-
-        param.update_calculations()
-
-        Reconimg = fdk.fdk(radiogram, param)
-
-        correct = imread(r"./example_data/AVG_R02_01.tif").transpose().astype(np.float64)
-
-        return Reconimg, correct
-
-
-Reconimg, correct = main()
 
 
 def normalize_grey_scales(image):
@@ -42,15 +11,38 @@ def normalize_grey_scales(image):
     return (image - background_grey_scale) / (undeformed_grey_scale - background_grey_scale)
 
 
-Reconimg_crop = Reconimg.transpose()[:, ::-1][1:, :400]
+def main():
+    param = fdk.param_from_xtekct("./example_data/R02_01.xtekct")
+    file_names = [r"R02_01.tif"]
 
-# plt.imshow(Reconimg.transpose(), cmap=plt.cm.magma)
-# plt.clim(vmin=0.0, vmax=0.045)
-# plt.figure()
-# plt.imshow(correct.transpose(), cmap=plt.cm.magma)
+    for i, file_name in enumerate(file_names):
+        print("Processing file nr %i" % i)
+        radiogram = fdk.read_image(r"./example_data/" + file_name, flat_corrected=True)
 
-Reconimg_crop_norm = normalize_grey_scales(Reconimg_crop)
+        # Remove some edges that are in field of view
+        radiogram[:250, :] = 0.95
+        radiogram[1800:, :] = 0.95
+
+        radiogram = median_filter(radiogram, size=20)
+
+        _, center_offset = fdk.object_center_of_rotation(radiogram, param, background_internsity=0.9)
+        param.center_of_rot_y = center_offset
+
+        param.update_internals()
+
+        tomo = fdk.fdk(radiogram, param)
+
+        return tomo
+
+
+recon = main()
+
+correct = fdk.read_image(r"./example_data/AVG_R02_01.tif")
 correct_norm = normalize_grey_scales(correct.transpose())
+
+
+Reconimg_crop = recon.transpose()[:, ::-1][1:, :400]
+Reconimg_crop_norm = normalize_grey_scales(Reconimg_crop)
 
 plt.figure()
 plt.subplot(1, 3, 1)
