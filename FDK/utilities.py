@@ -151,7 +151,7 @@ def shading_correction(radiograms, flats, darks):
     return corrected_radiograms
 
 
-def read_image(file_path):
+def read_image(file_path, flat_corrected=False):
     """ Read an image specified by the file_path
         This function allways returns a float64 single channel image
 
@@ -168,5 +168,7 @@ def read_image(file_path):
         """
     image = imread(file_path).astype(np.float64)
     if image.ndim == 3:
-        return np.average(image, axis=2).transpose()
+        image =  np.average(image, axis=2)
+    if flat_corrected:
+        image = image/image.max()
     return image.transpose()
