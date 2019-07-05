@@ -76,7 +76,7 @@ There are two main ways to to this:
 Installing via a package manager:
 ----------------------------------
 Prerequisites:
-    This toolkit is tested on Python 2.7x and Python 3.7
+    This toolkit is tested on Python 3.7
 
 On the command line, check if python is available::
 
@@ -109,7 +109,7 @@ These instructions will get you a copy of the project up and running on your
 local machine for development and testing purposes.
 
 Prerequisites:
-    This toolkit is tested on Python 2.7x and Python 3.7
+    This toolkit is tested on Python 3.7
 
 Installing:
 Start to clone this repo to your preferred location
