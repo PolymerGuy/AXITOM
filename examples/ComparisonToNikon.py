@@ -5,10 +5,10 @@ from scipy.ndimage.filters import median_filter
 
 
 def normalize_grey_scales(image):
-    undeformed_grey_scale = np.average(image[250:500, 0:250])
+    reference_grey_scale = np.average(image[250:500, 0:250])
     background_grey_scale = np.average(image[870:1020, 280:375])
 
-    return (image - background_grey_scale) / (undeformed_grey_scale - background_grey_scale)
+    return (image - background_grey_scale) / (reference_grey_scale - background_grey_scale)
 
 
 def main():
