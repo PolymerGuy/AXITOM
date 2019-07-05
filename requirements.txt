@@ -8,3 +8,4 @@ matplotlib
 scikit-image
 natsort
 imageio
+pathlib
