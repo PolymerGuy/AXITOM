@@ -1,5 +1,5 @@
 import numpy as np
-from parse import parse_xtekct_file
+from .parse import parse_xtekct_file
 
 class Param(object):
 
