@@ -13,40 +13,30 @@ import os
 
 def main():
     dir_path = os.path.dirname(os.path.realpath(__file__))
-    inputfile = fdk.parse_xtekct_file(dir_path +  "/example_data/radiogram.xtekct")
-    param = fdk.config_from_xtekct(inputfile)
-    param.axis_sym = True
-
-    file_names = [r"./example_data/R02_01.tif"]
+    config = fdk.config_from_xtekct(dir_path +"/example_data/R02_01.xtekct")
+    file_names = [r"R02_01.tif"]
 
     for i, file_name in enumerate(file_names):
         print("Processing file nr %i" % i)
-        radiogram = imread(dir_path + "/example_data/R02_01.tif").transpose().astype(np.float64)
+        radiogram = fdk.read_image(dir_path + "/example_data/" + file_name, flat_corrected=True)
 
-        # Half hearted I/I0
-        radiogram = radiogram / np.max(radiogram)
+        # Remove some edges that are in field of view
         radiogram[:250, :] = 0.95
         radiogram[1800:, :] = 0.95
 
-        print("Sigma before filtering", estimate_sigma(radiogram))
-        radiogram = median_filter(radiogram,size=20)
+        radiogram = median_filter(radiogram, size=20)
 
-        print("Sigma after filtering", estimate_sigma(radiogram))
+        _, center_offset = fdk.object_center_of_rotation(radiogram, config, background_internsity=0.9)
+        config.center_of_rot_y = center_offset
 
-        _, center_offset = fdk.find_center_of_gravity_in_radiogram(radiogram, background_internsity=0.9)
-        param.center_of_rot_y = center_offset * (
-                    param.source_to_object_dist / param.source_to_detector_dist) * param.pixel_size_u
+        config.update_internals()
 
-        param.update_internals()
-        #        print("Center offset: %f")%param.object_center_x
-        print("Object", param.object_xs.max(), param.object_xs.min())
-
-        Reconimg = fdk.fdk(radiogram, param)
+        tomo = fdk.fdk(radiogram, config)
 
 
 
 
-        return Reconimg
+        return tomo
 
 
 
@@ -69,12 +59,11 @@ class Test_real_FDK(TestCase):
         Reconimg_crop = Reconimg.transpose()[:, ::-1][1:, :400]
         Reconimg_crop_norm = normalize_grey_scales(Reconimg_crop)
 
-        correct = imread(dir_path + "/example_data/AVG_R02_01.tif").transpose().astype(np.float64)
+        correct = fdk.read_image(dir_path + "/example_data/AVG_R02_01.tif")
         correct_norm = normalize_grey_scales(correct.transpose())
 
 
         error_field = np.abs(Reconimg_crop_norm[::-1,:]-correct_norm)
-
 
         if np.average(error_field) > self.tol:
             self.fail("The reconstruction did not match the reconstruction performed by another software and the error was: %f" % np.average(

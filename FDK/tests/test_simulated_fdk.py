@@ -8,8 +8,7 @@ import matplotlib.pyplot as plt
 def run_backprojection_full():
     dir_path = os.path.dirname(os.path.realpath(__file__))
 
-    parsed_xtek_file = fdk.parse_xtekct_file(dir_path + "/example_data/radiogram.xtekct")
-    param = fdk.config_from_xtekct(parsed_xtek_file)
+    param = fdk.config_from_xtekct(dir_path + "/example_data/radiogram.xtekct")
     param.axis_sym = True
     param.n_voxels_x = 500
     param.n_voxels_y = 500
@@ -31,8 +30,7 @@ def run_backprojection_full():
 
 def run_backprojection_hollow():
     dir_path = os.path.dirname(os.path.realpath(__file__))
-    parsed_xtek_file = fdk.parse_xtekct_file(dir_path +"/example_data/radiogram.xtekct")
-    param = fdk.config_from_xtekct(parsed_xtek_file)
+    param = fdk.config_from_xtekct(dir_path +"/example_data/radiogram.xtekct")
     param.axis_sym = True
     param.n_voxels_x = 500
     param.n_voxels_y = 500
