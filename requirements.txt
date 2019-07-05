@@ -7,3 +7,4 @@ codecov
 matplotlib
 scikit-image
 natsort
+imageio
