@@ -18,7 +18,7 @@ def main():
     param.n_voxels_z = 500
     param.n_pixels_u = 500
     param.n_pixels_v = 500
-    param.update_calculations()
+    param.update_internals()
 
     domain = barrel_gradient(500)
 

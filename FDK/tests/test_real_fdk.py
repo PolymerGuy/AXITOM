@@ -37,7 +37,7 @@ def main():
         param.center_of_rot_y = center_offset * (
                     param.source_to_object_dist / param.source_to_detector_dist) * param.pixel_size_u
 
-        param.update_calculations()
+        param.update_internals()
         #        print("Center offset: %f")%param.object_center_x
         print("Object", param.object_xs.max(), param.object_xs.min())
 

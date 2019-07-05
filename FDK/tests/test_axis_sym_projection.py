@@ -33,7 +33,7 @@ def main():
     param.source_to_detector_dist = 1.e10
     param.source_to_object_dist = 1.e10
 
-    param.update_calculations()
+    param.update_internals()
 
     print(param.detector_us)
 

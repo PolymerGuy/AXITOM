@@ -54,7 +54,7 @@ def main():
 
         _, center_offset = find_center_of_gravity_in_radiogram(roi, background_internsity=0.9)
         param.pixel_offset_u = -center_offset
-        param.update_calculations()
+        param.update_internals()
         print("Center offset: %f")%center_offset
 
 

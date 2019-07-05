@@ -16,7 +16,7 @@ def run_backprojection_full():
     param.n_voxels_z = 500
     param.n_pixels_u = 500
     param.n_pixels_v = 500
-    param.update_calculations()
+    param.update_internals()
 
     domain = barrel(500)
 
@@ -39,7 +39,7 @@ def run_backprojection_hollow():
     param.n_voxels_z = 500
     param.n_pixels_u = 500
     param.n_pixels_v = 500
-    param.update_calculations()
+    param.update_internals()
 
     domain = barrel_gradient(500)
 

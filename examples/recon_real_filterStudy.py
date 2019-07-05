@@ -69,7 +69,7 @@ def main():
             param.center_of_rot_x = center_offset * (
                         param.source_to_object_dist / param.source_to_detector_dist) * param.pixel_size_u
             # param.dang = 360./1700.
-            param.update_calculations()
+            param.update_internals()
             print("Center offset: %f") % center_offset
 
             proj = -np.log(radiogram)[:, :, np.newaxis]
