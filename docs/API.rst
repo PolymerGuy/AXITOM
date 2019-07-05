@@ -57,12 +57,12 @@ Utilities
 
 .. autofunction:: FDK.utilities.find_center_of_gravity_in_radiogram
 
-.. autofunction:: FDK.phantoms.object_center_of_rotation
+.. autofunction:: FDK.utilities.object_center_of_rotation
 
-.. autofunction:: FDK.phantoms.rotate_coordinates
+.. autofunction:: FDK.utilities.rotate_coordinates
 
-.. autofunction:: FDK.phantoms.list_files_in_folder
+.. autofunction:: FDK.utilities.list_files_in_folder
 
-.. autofunction:: FDK.phantoms.shading_correction
+.. autofunction:: FDK.utilities.shading_correction
 
-.. autofunction:: FDK.phantoms.read_image
+.. autofunction:: FDK.utilities.read_image
