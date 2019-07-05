@@ -12,7 +12,7 @@ def normalize_grey_scales(image):
 
 
 def main():
-    param = fdk.param_from_xtekct("./example_data/R02_01.xtekct")
+    config = fdk.config_from_xtekct("./example_data/R02_01.xtekct")
     file_names = [r"R02_01.tif"]
 
     for i, file_name in enumerate(file_names):
@@ -25,12 +25,12 @@ def main():
 
         radiogram = median_filter(radiogram, size=20)
 
-        _, center_offset = fdk.object_center_of_rotation(radiogram, param, background_internsity=0.9)
-        param.center_of_rot_y = center_offset
+        _, center_offset = fdk.object_center_of_rotation(radiogram, config, background_internsity=0.9)
+        config.center_of_rot_y = center_offset
 
-        param.update_internals()
+        config.update_internals()
 
-        tomo = fdk.fdk(radiogram, param)
+        tomo = fdk.fdk(radiogram, config)
 
         return tomo
 

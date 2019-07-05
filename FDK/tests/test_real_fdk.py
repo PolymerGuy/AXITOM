@@ -14,7 +14,7 @@ import os
 def main():
     dir_path = os.path.dirname(os.path.realpath(__file__))
     inputfile = fdk.parse_xtekct_file(dir_path +  "/example_data/radiogram.xtekct")
-    param = fdk.param_from_xtekct(inputfile)
+    param = fdk.config_from_xtekct(inputfile)
     param.axis_sym = True
 
     file_names = [r"./example_data/R02_01.tif"]

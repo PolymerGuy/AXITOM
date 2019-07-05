@@ -1,5 +1,5 @@
 from FDK.filtering import ramp_filter_and_weight
-from FDK.param import param_from_xtekct
+from FDK.param import config_from_xtekct
 from FDK.backprojection import fdk
 import matplotlib.pyplot as plt
 import numpy as np
@@ -18,7 +18,7 @@ def find_images_names(path, file_type=".tif"):
 
 def main():
     inputfile = parse_xtekct_file("/home/sindreno/InSituCt/PVC3/SNO20190503PVC3.xtekct")
-    param = param_from_xtekct(inputfile)
+    param = config_from_xtekct(inputfile)
     param.axis_sym = True
 
     file_names = find_images_names("/home/sindreno/InSituCt/PVC3/",".tif")
