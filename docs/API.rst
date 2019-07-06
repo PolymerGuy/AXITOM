@@ -7,13 +7,62 @@ API documentation
 =================
 
 
+Back projection
+--------------
 
-.. math::
-   :nowrap:
+.. autofunction:: FDK.backprojection.map_object_to_detector_coords
 
 
-    \begin{equation}
-    f_{FDK}(x,y,z) = \int_0^{2\pi} \frac{R^2}{U(x,y,\beta)^2} \tilde{p}^F (\beta, a(x,y,\beta),b(x,y,z,\beta))d\beta
-    \end{equation}
+.. autofunction:: FDK.backprojection.fdk
 
-where 
+
+Forward projection
+--------------
+
+.. autofunction:: FDK.projection.forward_project
+
+
+.. autofunction:: FDK.projection.axis_sym_projection
+
+
+
+Filtering
+---------
+
+.. autofunction:: FDK.filtering.ramp_kernel_real
+
+
+.. autofunction:: FDK.filtering.add_weights
+
+
+.. autofunction:: FDK.filtering.ramp_filter_and_weight
+
+
+Parse files
+-----------
+
+.. autofunction:: FDK.phantoms.parse_xtekct_file
+
+
+Phantoms
+--------
+
+.. autofunction:: FDK.phantoms.barrel
+
+.. autofunction:: FDK.phantoms.barrel_gradient
+
+
+Utilities
+---------
+
+.. autofunction:: FDK.utilities.find_center_of_gravity_in_radiogram
+
+.. autofunction:: FDK.phantoms.object_center_of_rotation
+
+.. autofunction:: FDK.phantoms.rotate_coordinates
+
+.. autofunction:: FDK.phantoms.list_files_in_folder
+
+.. autofunction:: FDK.phantoms.shading_correction
+
+.. autofunction:: FDK.phantoms.read_image

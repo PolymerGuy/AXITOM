@@ -1,19 +1,15 @@
 from unittest import TestCase
-from FDK.param import param_from_xtekct
 from FDK.parse import parse_xtekct_file
 from FDK.phantoms import barrel
 from FDK.projection import axis_sym_projection
 import numpy as np
-import matplotlib.pyplot as plt
 import os
-
-from FDK.backprojection import fdk
+import FDK as fdk
 
 
 def main():
     dir_path = os.path.dirname(os.path.realpath(__file__))
-    inputfile = parse_xtekct_file(dir_path +  "/example_data/radiogram.xtekct")
-    param = param_from_xtekct(inputfile)
+    param = fdk.config_from_xtekct(dir_path +  "/example_data/radiogram.xtekct")
     param.n_voxels_x = 50
     param.n_voxels_y = 50
     param.n_voxels_z = 50
@@ -33,7 +29,7 @@ def main():
     param.source_to_detector_dist = 1.e10
     param.source_to_object_dist = 1.e10
 
-    param.update_calculations()
+    param.update_internals()
 
     print(param.detector_us)
 

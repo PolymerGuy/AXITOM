@@ -18,7 +18,7 @@ class TestMap_object_to_detector_coords(TestCase):
         param.n_voxels_x = 20
         param.n_voxels_y = 20
         param.n_voxels_z = 20
-        param.update_calculations()
+        param.update_internals()
         return param
 
 
@@ -29,7 +29,7 @@ class TestMap_object_to_detector_coords(TestCase):
         param = self.make_default_param()
         param.source_to_detector_dist = 1.e10
         param.source_to_object_dist = 1.e10
-        param.update_calculations()
+        param.update_internals()
 
 
 
@@ -62,7 +62,7 @@ class TestMap_object_to_detector_coords(TestCase):
 
         param.source_to_detector_dist = 2.e10
         param.source_to_object_dist = 1.e10
-        param.update_calculations()
+        param.update_internals()
 
 
 

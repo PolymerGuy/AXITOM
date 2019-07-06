@@ -1,5 +1,5 @@
 from FDK.filtering import ramp_filter_and_weight
-from FDK.param import param_from_xtekct
+from FDK.param import config_from_xtekct
 from FDK.backprojection import fdk
 import matplotlib.pyplot as plt
 import numpy as np
@@ -21,7 +21,7 @@ def find_images_names(path, file_type=".tif"):
 
 def main():
     inputfile = parse_xtekct_file("/home/sindreno/InSituCt/axisymrecon/SNO20160707_R02_01_Cu025.xtekct")
-    param = param_from_xtekct(inputfile)
+    param = config_from_xtekct(inputfile)
     param.axis_sym = True
 
     file_names = ["SNO20160707_R02_01_Cu025_0001.tif"]
@@ -69,7 +69,7 @@ def main():
             param.center_of_rot_x = center_offset * (
                         param.source_to_object_dist / param.source_to_detector_dist) * param.pixel_size_u
             # param.dang = 360./1700.
-            param.update_calculations()
+            param.update_internals()
             print("Center offset: %f") % center_offset
 
             proj = -np.log(radiogram)[:, :, np.newaxis]

@@ -15,6 +15,12 @@ This is the start page
 
    install
    quickstart
+
+
+.. toctree::
+   :maxdepth: 2
+   :caption: API:
+
    API
 
 .. toctree::
