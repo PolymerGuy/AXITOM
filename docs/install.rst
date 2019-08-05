@@ -1,49 +1,10 @@
-.. AXITOM documentation master file, created by
-   sphinx-quickstart on Tue Jun 25 21:12:55 2019.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
-
 Installation
 =============
-
-
 In order to get started with AXITOM, you need to install it on your computer.
 There are two main ways to to this:
 
 *   You can install it via a package manager like PIP or Conda
 *   You can  clone the repo
-
-
-Installing via a package manager:
-----------------------------------
-Prerequisites:
-    This toolkit is tested on Python 2.7x and Python 3.7
-
-On the command line, check if python is available::
-
-$ python --version
-
-
-If this command does not return the version of you python installation,
-you need to fix this first.
-
-If everything seems to work, you install the package in your global python 
-environment (Not recommend) via pip::
-
-$ pip install axitom
-
-and you are good to go!
-
-We recommend that you always use virtual environments by virtualenv or by Conda env.
-
-Virtual env::
-
-$ cd /path/to/your/project
-$ python -m virtualenv env
-$ source ./env/bin/activate #On Linux and Mac OS
-$ env\Scripts\activate.bat #On Windows
-$ pip install axitom
-
 
 By cloning the repo:
 ---------------------
@@ -52,27 +13,27 @@ These instructions will get you a copy of the project up and running on your
 local machine for development and testing purposes.
 
 Prerequisites:
-    This toolkit is tested on Python 2.7x and Python 3.7
+    This toolkit is tested on Python 3.7
 
-Installing:
-    Start to clone this repo to your preferred location::
+Start to clone this repo to your preferred location::
 
-    $ git init
-    $ git clone https://github.com/PolymerGuy/axitom.git
-
+   git init
+   git clone https://github.com/PolymerGuy/axitom.git
 
 
-    We recommend that you always use virtual environments, either by virtualenv or by Conda env
 
-    Virtual env::
-    
-    $ python -m virtualenv env
-    $ source ./env/bin/activate #On Linux and Mac OS
-    $ env\Scripts\activate.bat #On Windows
-    $ pip install -r requirements.txt
+We recommend that you always use virtual environments, either by virtualenv or by Conda env
+
+Virtual env::
+
+    python -m virtualenv env
+    source ./env/bin/activate #On Linux and Mac OS
+    env\Scripts\activate.bat #On Windows
+    pip install -r requirements.txt
 
 
-    You can now run an example::
+You can now run an example::
+
     $ python path_to_axitom/Examples/quick_start.py
 
 
@@ -84,9 +45,9 @@ These tests are integration and unit tests
 
 If you installed via a package manger::
 
-    $ nosetests axitom
+    nosetests axitom
 
 If you cloned the repo, you have to call nosetests from within the folder::
 
-    $ nosetests axitom
+    nosetests axitom
 

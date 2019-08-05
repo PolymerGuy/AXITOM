@@ -1,4 +1,4 @@
-from FDK.param import config_from_xtekct
+from FDK.config import config_from_xtekct
 from FDK.backprojection import fdk
 import numpy as np
 from FDK.parse import parse_xtekct_file

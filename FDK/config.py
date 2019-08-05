@@ -1,9 +1,14 @@
 import numpy as np
 from .parse import parse_xtekct_file
 
-class Param(object):
+class Config(object):
 
     def __init__(self):
+        """ Configuration object which contains all settings neccessary for the forward projection
+            and tomographic reconstruction using the FDK algorithm.
+
+        """
+
         self.n_voxels_x = 2000
         self.n_voxels_y = 2000
         self.n_voxels_z = 2000
@@ -50,8 +55,6 @@ class Param(object):
 
 
     def update_internals(self):
-        # Calculated
-
         self.projection_angs = np.arange(0., 360, self.angular_inc)
         self.n_projections = len(self.projection_angs)
 
@@ -76,28 +79,57 @@ class Param(object):
 
 
 def config_from_xtekct(file_path):
+    """ Make config object from a Nikon X-tek CT input file
 
+        The .xtekct file is parsed and a config file containing all relevant settings is returned.
+
+
+        Parameters
+        ----------
+        file_path : str
+            The path to the .xtekct file
+
+        Returns
+        -------
+        obj
+            Config object
+
+        """
+
+<<<<<<< HEAD:FDK/config.py
     inputfile = parse_xtekct_file(file_path)
+    conf = Config()
+=======
+
+def param_from_xtekct(path):
+
+    inputfile = parse_xtekct_file(path)
+
     param = Param()
+>>>>>>> dev:FDK/param.py
 
     try:
-        param.n_voxels_x = inputfile["VoxelsX"]
-        param.n_voxels_y = inputfile["VoxelsY"]
-        param.n_voxels_z = inputfile["VoxelsZ"]
+        conf.n_voxels_x = inputfile["VoxelsX"]
+        conf.n_voxels_y = inputfile["VoxelsY"]
+        conf.n_voxels_z = inputfile["VoxelsZ"]
 
-        param.object_size_x = inputfile["VoxelSizeX"] * param.n_voxels_x
-        param.object_size_y = inputfile["VoxelSizeY"] * param.n_voxels_y
-        param.object_size_z = inputfile["VoxelSizeZ"] * param.n_voxels_z
+        conf.object_size_x = inputfile["VoxelSizeX"] * conf.n_voxels_x
+        conf.object_size_y = inputfile["VoxelSizeY"] * conf.n_voxels_y
+        conf.object_size_z = inputfile["VoxelSizeZ"] * conf.n_voxels_z
 
-        param.n_pixels_u = inputfile["DetectorPixelsX"]
-        param.n_pixels_v = inputfile["DetectorPixelsY"]
+        conf.n_pixels_u = inputfile["DetectorPixelsX"]
+        conf.n_pixels_v = inputfile["DetectorPixelsY"]
 
-        param.detector_size_u = inputfile["DetectorPixelSizeX"] * param.n_pixels_u
-        param.detector_size_v = inputfile["DetectorPixelSizeY"] * param.n_pixels_v
+        conf.detector_size_u = inputfile["DetectorPixelSizeX"] * conf.n_pixels_u
+        conf.detector_size_v = inputfile["DetectorPixelSizeY"] * conf.n_pixels_v
 
-        param.source_to_detector_dist = inputfile["SrcToDetector"]
-        param.source_to_object_dist = inputfile["SrcToObject"]
+        conf.source_to_detector_dist = inputfile["SrcToDetector"]
+        conf.source_to_object_dist = inputfile["SrcToObject"]
     except Exception as e:
         raise IOError("Parsing of X-tec file failed with key: ", e)
 
+<<<<<<< HEAD:FDK/config.py
+    return conf
+=======
     return param
+>>>>>>> dev:FDK/param.py

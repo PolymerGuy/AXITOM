@@ -3,11 +3,9 @@ from scipy.ndimage import map_coordinates, rotate
 from copy import copy
 
 
-def forward_project(data, param, iview):
-    print("Projecting fram nr: ", iview)
+def forward_project(data, param, angle_deg):
 
     # Rotate the data3d around the third axis
-    angle_deg = param.projection_angs[iview]
 
     data3d = rotate(data, angle_deg, (1, 0), reshape=False)
 
@@ -30,6 +28,25 @@ def forward_project(data, param, iview):
 
 
 def axis_sym_projection(volume, param, angles=None):
+    """ Projection of a volume onto a sensor plane using a conical beam geometry
+
+        This implementation has been adapted for axis-symmetry and returns a single projection only
+
+        Parameters
+        ----------
+        volume : np.ndarray
+            The volume which will be projected onto the sensor
+        param : obj
+            The settings object
+        angles : list
+            The angles which will be used for the forward projection
+
+        Returns
+        -------
+        ndarray
+            The projection
+
+        """
     modified_param = copy(param)
     if angles is not None:
         modified_param.deg = angles
@@ -39,8 +56,7 @@ def axis_sym_projection(volume, param, angles=None):
         modified_param.nProj = len(modified_param.deg)
 
     radiogram = np.zeros((param.n_pixels_u, param.n_pixels_v), dtype=np.float)
-
-    for i in range(len(modified_param.deg)):
-        # for i in [0]:
-        radiogram += forward_project(volume, modified_param, i)
+    for i , angle_deg in  enumerate(param.projection_angs):
+        print("Projecting fram nr: ", i)
+        radiogram += forward_project(volume, modified_param, angle_deg)
     return radiogram / np.float(modified_param.nProj)

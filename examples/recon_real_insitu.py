@@ -1,5 +1,5 @@
 from FDK.filtering import ramp_filter_and_weight
-from FDK.param import config_from_xtekct
+from FDK.config import config_from_xtekct
 from FDK.backprojection import fdk
 import matplotlib.pyplot as plt
 import numpy as np

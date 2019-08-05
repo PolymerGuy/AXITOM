@@ -1,19 +1,13 @@
 import numpy as np
 import FDK as fdk
-from FDK.phantoms import barrel, barrel_gradient
 from unittest import TestCase
-
-import matplotlib.pyplot as plt
-
-from skimage.restoration import estimate_sigma
 from scipy.ndimage.filters import median_filter
-from skimage.io import imread
 import os
 
 
 def main():
     dir_path = os.path.dirname(os.path.realpath(__file__))
-    config = fdk.config_from_xtekct(dir_path +"/example_data/R02_01.xtekct")
+    config = fdk.config_from_xtekct(dir_path + "/example_data/R02_01.xtekct")
     file_names = [r"R02_01.tif"]
 
     for i, file_name in enumerate(file_names):
@@ -33,21 +27,14 @@ def main():
 
         tomo = fdk.fdk(radiogram, config)
 
-
-
-
         return tomo
 
 
-
-
 def normalize_grey_scales(image):
-    undeformed_grey_scale = np.average(image[250:500,0:250])
-    background_grey_scale = np.average(image[870:1020,280:375])
+    undeformed_grey_scale = np.average(image[250:500, 0:250])
+    background_grey_scale = np.average(image[870:1020, 280:375])
 
-    return (image-background_grey_scale)/(undeformed_grey_scale-background_grey_scale)
-
-
+    return (image - background_grey_scale) / (undeformed_grey_scale - background_grey_scale)
 
 
 class Test_real_FDK(TestCase):
@@ -62,10 +49,9 @@ class Test_real_FDK(TestCase):
         correct = fdk.read_image(dir_path + "/example_data/AVG_R02_01.tif")
         correct_norm = normalize_grey_scales(correct.transpose())
 
-
-        error_field = np.abs(Reconimg_crop_norm[::-1,:]-correct_norm)
+        error_field = np.abs(Reconimg_crop_norm[::-1, :] - correct_norm)
 
         if np.average(error_field) > self.tol:
-            self.fail("The reconstruction did not match the reconstruction performed by another software and the error was: %f" % np.average(
-                error_field))
-
+            self.fail(
+                "The reconstruction did not match the reconstruction performed by another software and the error was: %f" % np.average(
+                    error_field))
