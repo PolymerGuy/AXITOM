@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from FDK.param import Param
+from FDK.config import Config
 from FDK.backprojection import map_object_to_detector_coords
 import numpy as np
 import matplotlib.pyplot as plt
@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 class TestMap_object_to_detector_coords(TestCase):
 
     def make_default_param(self):
-        param = Param()
+        param = Config()
         param.detector_size_u = param.object_size_x
         param.detector_size_v = param.object_size_y
 

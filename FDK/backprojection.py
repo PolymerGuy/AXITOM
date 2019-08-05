@@ -2,7 +2,7 @@ import numpy as np
 from scipy.ndimage import map_coordinates
 from .utilities import rotate_coordinates
 from .filtering import ramp_filter_and_weight
-from .param import Param
+from .config import Config
 
 
 def map_object_to_detector_coords(object_xs, object_ys, object_zs, settings):
@@ -120,7 +120,7 @@ def fdk(projection, param):
 
         """
 
-    if not isinstance(param, Param):
+    if not isinstance(param, Config):
         raise IOError("Only instances of Param are valid settings")
 
     if type(projection) != np.ndarray:

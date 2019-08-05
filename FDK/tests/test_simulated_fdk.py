@@ -1,9 +1,8 @@
 import numpy as np
 import FDK as fdk
-from FDK.phantoms import barrel, barrel_gradient
+from FDK.phantoms import barrel
 from unittest import TestCase
 import os
-import matplotlib.pyplot as plt
 
 def run_backprojection_full():
     dir_path = os.path.dirname(os.path.realpath(__file__))
@@ -39,7 +38,7 @@ def run_backprojection_hollow():
     param.n_pixels_v = 500
     param.update_internals()
 
-    domain = barrel_gradient(500)
+    domain = barrel(500,center_val=0.5)
 
     proj = np.load(dir_path + "/example_data/barrel_grad_projections_axisym.npy")
 
