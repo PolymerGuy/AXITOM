@@ -2,7 +2,7 @@ from unittest import TestCase
 import numpy as np
 from FDK.backprojection import rotate_coordinates
 
-class TestRotate_coordinates(TestCase):
+class Test_RotateCoordinates(TestCase):
     def test_rotate_coordinates_90deg(self):
         tol = 1e-9
         n_coordinates = 10
