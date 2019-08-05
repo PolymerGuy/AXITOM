@@ -37,7 +37,7 @@ def main():
 
         Reconimg = fdk.fdk(radiogram, param)
 
-        correct = imread(r"./example_data/AVG_R02_01.tif").transpose().astype(np.float64)
+        correct = imread(r"./example_data/recon_by_external_software.tif").transpose().astype(np.float64)
 
 
 

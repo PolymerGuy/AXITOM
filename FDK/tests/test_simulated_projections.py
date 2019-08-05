@@ -5,7 +5,7 @@ from unittest import TestCase
 import os
 
 
-class TestSimulatedFDK(TestCase):
+class Test_SimulatedProjections(TestCase):
 
     def run_reconstruction_and_compare(self, path_to_projections, correct_body):
         # Set the work path as the filepath to this file
@@ -45,7 +45,7 @@ class TestSimulatedFDK(TestCase):
         Check if the reconstruction of a massive barrel matches the volume model from which
         the radiograms were produced.
         """
-        
+
         self.tol = 2e-2
         path_to_projections = "/example_data/barrel_projections_axisym.npy"
         correct = barrel(500)

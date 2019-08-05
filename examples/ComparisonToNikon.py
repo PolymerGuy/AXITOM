@@ -37,7 +37,7 @@ def main():
 
 recon = main()
 
-correct = fdk.read_image(r"./example_data/AVG_R02_01.tif")
+correct = fdk.read_image(r"./example_data/recon_by_external_software.tif")
 correct_norm = normalize_grey_scales(correct.transpose())
 
 
