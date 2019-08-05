@@ -96,17 +96,10 @@ def config_from_xtekct(file_path):
 
         """
 
-<<<<<<< HEAD:FDK/config.py
     inputfile = parse_xtekct_file(file_path)
     conf = Config()
-=======
 
-def param_from_xtekct(path):
 
-    inputfile = parse_xtekct_file(path)
-
-    param = Param()
->>>>>>> dev:FDK/param.py
 
     try:
         conf.n_voxels_x = inputfile["VoxelsX"]
@@ -128,8 +121,5 @@ def param_from_xtekct(path):
     except Exception as e:
         raise IOError("Parsing of X-tec file failed with key: ", e)
 
-<<<<<<< HEAD:FDK/config.py
     return conf
-=======
-    return param
->>>>>>> dev:FDK/param.py
+
