@@ -18,7 +18,7 @@
   <h3 align="center">AXITOM</h3>
 
   <p align="center">
-    Tomographic reconstruction of axisymmetric fields acquired by a cone beam geometry
+    Tomographic reconstruction of axisymmetric fields acquired by a cone beam
     <br />
     <a href="https://axitom.readthedocs.io/en/latest/"><strong>Explore the docs »</strong></a>
     <br />
