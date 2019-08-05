@@ -36,7 +36,8 @@
 
 
 <!-- ABOUT THE PROJECT -->
-## About The Project
+About The Project
+-----------------
 This python package provides tools for axis-symmetric cone beam computed tomography. The reconstruction is performed by a Feldkamp David Kress algorihtm
 which have been adapted such that is exploits the axis-symmetric nature of the the tomogram.
 
@@ -48,26 +49,22 @@ This toolkit has a highly spezialised usage, and there are plenty of more genera
  axis-symmetric tomograms based on a conical beam geometry.
 
 ### Built With
-This section should list any major frameworks that you built your project using. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
-* [Numpy](https://getbootstrap.com)
-* [Scipy](https://jquery.com)
-* [Scikit-image](https://laravel.com)
-* [Matplotlib](https://laravel.com)
+This project is heavily based on the following packages:
+* [Numpy](https://numpy.org/)
+* [Scipy](https://www.scipy.org/)
+* [Scikit-image](https://scikit-image.org/)
+* [Matplotlib](https://matplotlib.org/)
 
 
 
 <!-- GETTING STARTED -->
-## Getting Started
+Getting Started
+---------------
 
 This is an example of how you may give instructions on setting up your project locally.
 To get a local copy up and running follow these simple example steps.
 
-
-
-
-
-Clone the repo:
----------------------
+## Clone the repo:
 
 These instructions will get you a copy of the project up and running on your 
 local machine for development and testing purposes.
@@ -92,8 +89,7 @@ You can now run an example::
     
     $ python <path_to_axitom>/Examples/quick_start.py
 
-Running the tests
-------------------
+## Run the tests
 The tests should always be launched to check your installation.
 These tests are integration and unit tests
 
@@ -106,7 +102,8 @@ If you cloned the repo, you have to call nosetests from within the folder
     $ nosetests axitom
 
 
-## Quick start
+Example
+-------
 Let's now go through the necessary steps for doing reconstruction of a tomogram based on a single image.
 First, we need to import the tools
 
@@ -158,7 +155,8 @@ The results can then be visualized
 <img src="./docs/results.png" alt="Results" width="300"/>
 
 <!-- CONTRIBUTING -->
-## Contributing
+Contributing
+------------
 
 Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
@@ -170,18 +168,21 @@ Contributions are what make the open source community such an amazing place to b
 
 
 <!-- LICENSE -->
-## License
+License
+-------
 
 Distributed under the MIT License. See `LICENSE` for more information.
 
 <!-- CONTACT -->
-## Contact
+Contact
+-------
 
 Sindre Nordmark Olufsen (PolymerGuy) - sindre.n.olufsen@ntnu.no
 
 
 <!-- ACKNOWLEDGEMENTS -->
-## Acknowledgements
+Acknowledgements
+----------------
 We are in great debt to the open source community and all the contributors the the projects on which this toolkit is based.
 
 <!-- MARKDOWN LINKS & IMAGES -->
