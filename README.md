@@ -64,11 +64,9 @@ To get a local copy up and running follow these simple example steps.
 
 
 
-### Installation
 
-In order to get started with AXITOM, you need to install it on your computer.
 
-By cloning the repo:
+Clone the repo:
 ---------------------
 
 These instructions will get you a copy of the project up and running on your 
