@@ -9,7 +9,7 @@ import FDK as fdk
 
 def main():
     dir_path = os.path.dirname(os.path.realpath(__file__))
-    param = fdk.config_from_xtekct(dir_path +  "/example_data/radiogram.xtekct")
+    param = fdk.config_from_xtekct(dir_path +  "/example_data/settings.xtekct")
     param.n_voxels_x = 50
     param.n_voxels_y = 50
     param.n_voxels_z = 50

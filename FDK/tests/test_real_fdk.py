@@ -7,8 +7,8 @@ import os
 
 def main():
     dir_path = os.path.dirname(os.path.realpath(__file__))
-    config = fdk.config_from_xtekct(dir_path + "/example_data/R02_01.xtekct")
-    file_names = [r"R02_01.tif"]
+    config = fdk.config_from_xtekct(dir_path + "/example_data/settings.xtekct")
+    file_names = [r"radiogram.tif"]
 
     for i, file_name in enumerate(file_names):
         print("Processing file nr %i" % i)

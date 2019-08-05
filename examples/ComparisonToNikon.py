@@ -12,8 +12,8 @@ def normalize_grey_scales(image):
 
 
 def main():
-    config = fdk.config_from_xtekct("./example_data/R02_01.xtekct")
-    file_names = [r"R02_01.tif"]
+    config = fdk.config_from_xtekct("./example_data/settings.xtekct")
+    file_names = [r"radiogram.tif"]
 
     for i, file_name in enumerate(file_names):
         print("Processing file nr %i" % i)
