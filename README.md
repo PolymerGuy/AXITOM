@@ -64,7 +64,7 @@ Getting Started
 This is an example of how you may give instructions on setting up your project locally.
 To get a local copy up and running follow these simple example steps.
 
-## Clone the repo:
+### Clone the repo:
 
 These instructions will get you a copy of the project up and running on your 
 local machine for development and testing purposes.
@@ -89,7 +89,7 @@ You can now run an example::
     
     $ python <path_to_axitom>/Examples/quick_start.py
 
-## Run the tests
+### Run the tests
 The tests should always be launched to check your installation.
 These tests are integration and unit tests
 
