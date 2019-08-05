@@ -5,7 +5,7 @@
 [![CircleCI](https://circleci.com/gh/PolymerGuy/AXITOM.svg?style=svg)](https://circleci.com/gh/PolymerGuy/AXITOM)
 [![codecov](https://codecov.io/gh/PolymerGuy/AXITOM/branch/master/graph/badge.svg)](https://codecov.io/gh/PolymerGuy/AXITOM)
 [![MIT License][license-shield]][license-url]
-[![Documentation Status](https://readthedocs.org/projects/axitom/badge/?version=latest)](https://mudic.readthedocs.io/en/latest/?badge=latest)
+[![Documentation Status](https://readthedocs.org/projects/axitom/badge/?version=latest)](https://axitom.readthedocs.io/en/latest/?badge=latest)
 
 
 <!-- PROJECT LOGO -->
@@ -67,40 +67,6 @@ To get a local copy up and running follow these simple example steps.
 ### Installation
 
 In order to get started with AXITOM, you need to install it on your computer.
-There are two main ways to to this:
-
-*   You can install it via a package manager like PIP or Conda
-*   You can  clone the repo
-
-
-Installing via a package manager:
-----------------------------------
-Prerequisites:
-    This toolkit is tested on Python 3.7
-
-On the command line, check if python is available::
-
-    $ python --version
-
-
-If this command does not return the version of you python installation,
-you need to fix this first.
-
-If everything seems to work, you install the package in your global python 
-environment (Not recommend) via pip:
-
-    $ pip install axitom
-
-and you are good to go!
-
-We recommend that you always use virtual environments by virtualenv or by Conda env.
-
-    $ cd /path/to/your/project
-    $ python -m virtualenv env
-    $ source ./env/bin/activate #On Linux and Mac OS
-    $ env\Scripts\activate.bat #On Windows
-    $ pip install axitom
-
 
 By cloning the repo:
 ---------------------
@@ -142,14 +108,55 @@ If you cloned the repo, you have to call nosetests from within the folder::
     $ nosetests axitom
 
 
-<!-- USAGE EXAMPLES -->
-## Usage
+## Quick start
+Let's now go through the necessary steps for doing reconstruction of a tomogram based on a single image.
+First, we need to import the tools::
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+    import axitom as tom
+    from scipy.ndimage.filters import median_filter
 
-_For more examples, please refer to the [Documentation](https://example.com)_
+Assuming that the example data from the repo is located in the example_data folder, we can make a config object
+from the .xtekct file::
+
+    config = tom.config_from_xtekct("./example_data/R02_01.xtekct")
+
+We now import the radiogram::
+
+     radiogram = tom.read_image(r"./example_data/R02_01.tif, flat_corrected=True)
+
+And we remove the top and bottom of the image. This is necessary in this example, as the fixtures will interfere with
+the algorithm used to find the center of rotation::
+
+     radiogram[:250, :] = 0.95
+     radiogram[1800:, :] = 0.95
+
+As we will use a single radiogram only in this reconstruction, we will reduce the noise content of the radiogram by
+employing a median filter. This works fine since the density gradients within the specimen are relatively small.
+You may here choose any filter of your liking::
+
+     radiogram = median_filter(radiogram, size=20)
+
+Now, the axis of rotation has to be determined. This is done be binarization of the image into object and background
+and determining the center of gravity of the object::
+
+     _, center_offset = tom.object_center_of_rotation(radiogram, config, background_internsity=0.9)
+
+The config object has to be updated with the correct values::
+
+     config.center_of_rot_y = center_offset
+     config.update_internals()
+
+We are now ready to initiate the reconstruction::
+
+     tomo = tom.fdk(radiogram, config)
 
 
+The results can then be visualized::
+
+   plt.title("Radial slice")
+   plt.imshow(tomo.transpose(), cmap=plt.cm.magma)
+
+<img src="./docs/results.png" alt="Results" width="200"/>
 
 <!-- CONTRIBUTING -->
 ## Contributing
@@ -176,12 +183,7 @@ Sindre Nordmark Olufsen (PolymerGuy) - sindre.n.olufsen@ntnu.no
 
 <!-- ACKNOWLEDGEMENTS -->
 ## Acknowledgements
-* [GitHub Emoji Cheat Sheet](https://www.webpagefx.com/tools/emoji-cheat-sheet)
-
-
-
-
-
+We are in great debt to the open source community and all the contributors the the projects on which this toolkit is based.
 
 <!-- MARKDOWN LINKS & IMAGES -->
 [license-shield]: https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square
