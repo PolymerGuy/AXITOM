@@ -51,5 +51,3 @@ class Test_RotateCoordinates(TestCase):
             print("The maximum error in Y after rotation was:",np.max(error_ys) )
             self.fail()
 
-    #def test_rotate_coordinates_90deg(self):
-    #    self.fail()
