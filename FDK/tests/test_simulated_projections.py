@@ -18,7 +18,7 @@ class Test_SimulatedProjections(TestCase):
         param.n_voxels_z = 500
         param.n_pixels_u = 500
         param.n_pixels_v = 500
-        param.update_internals()
+        param.update()
 
         proj = np.load(dir_path + path_to_projections)
         proj = np.exp(-proj)

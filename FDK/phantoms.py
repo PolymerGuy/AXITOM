@@ -21,7 +21,7 @@ def barrel(domain_size=128, outer_rad_fraction=0.7,center_val=None):
     """
 
     center = domain_size / 2.
-    domain = np.zeros((domain_size, domain_size, domain_size), dtype=np.float)
+    domain = np.zeros((domain_size, domain_size, domain_size), dtype=np.float64)
     xs, ys = np.meshgrid(np.arange(domain_size), np.arange(domain_size))
     xs = xs - center
     ys = ys - center

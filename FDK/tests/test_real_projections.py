@@ -19,7 +19,7 @@ def run_reconstruction():
     _, center_offset = fdk.object_center_of_rotation(radiogram, config, background_internsity=0.9)
     config.center_of_rot_y = center_offset
 
-    config.update_internals()
+    config.update()
 
     reconstruction = fdk.fdk(radiogram, config)
 

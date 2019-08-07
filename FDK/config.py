@@ -42,19 +42,19 @@ class Config(object):
         self.pixel_size_v = self.detector_size_v / self.n_pixels_v
 
         self.object_xs = np.linspace(-self.n_voxels_x / 2., self.n_voxels_x / 2., self.n_voxels_x,
-                                     dtype=np.float) * self.voxel_size_x
+                                     dtype=np.float64) * self.voxel_size_x
         self.object_ys = np.linspace(-self.n_voxels_y / 2., self.n_voxels_y / 2., self.n_voxels_y,
-                                     dtype=np.float) * self.voxel_size_y
+                                     dtype=np.float64) * self.voxel_size_y
         self.object_zs = np.linspace(-self.n_voxels_z / 2., self.n_voxels_z / 2., self.n_voxels_z,
-                                     dtype=np.float) * self.voxel_size_z
+                                     dtype=np.float64) * self.voxel_size_z
 
-        self.detector_us = np.linspace(-self.n_pixels_u / 2., self.n_pixels_u / 2., self.n_pixels_u,
-                                       dtype=np.float) * self.pixel_size_u + self.pixel_offset_u * self.pixel_size_u
-        self.detector_vs = np.linspace(-self.n_pixels_v / 2., self.n_pixels_v / 2., self.n_pixels_v,
-                                       dtype=np.float) * self.pixel_size_v + self.pixel_offset_v * self.pixel_size_v
+        self.detector_us = np.linspace(-self.n_pixels_u / 2., self.n_pixels_u / 2.-1, self.n_pixels_u,
+                                       dtype=np.float64) * self.pixel_size_u + self.pixel_offset_u * self.pixel_size_u
+        self.detector_vs = np.linspace(-self.n_pixels_v / 2., self.n_pixels_v / 2.-1, self.n_pixels_v,
+                                       dtype=np.float64) * self.pixel_size_v + self.pixel_offset_v * self.pixel_size_v
 
 
-    def update_internals(self):
+    def update(self):
         self.projection_angs = np.arange(0., 360, self.angular_inc)
         self.n_projections = len(self.projection_angs)
 
@@ -66,16 +66,14 @@ class Config(object):
         self.pixel_size_v = self.detector_size_v / self.n_pixels_v
 
         self.object_xs = np.linspace(-self.n_voxels_x / 2., self.n_voxels_x / 2., self.n_voxels_x,
-                                     dtype=np.float) * self.voxel_size_x
+                                     dtype=np.float64) * self.voxel_size_x
         self.object_ys = np.linspace(-self.n_voxels_y / 2., self.n_voxels_y / 2., self.n_voxels_y,
-                                     dtype=np.float) * self.voxel_size_y
+                                     dtype=np.float64) * self.voxel_size_y
         self.object_zs = np.linspace(-self.n_voxels_z / 2., self.n_voxels_z / 2., self.n_voxels_z,
-                                     dtype=np.float) * self.voxel_size_z
+                                     dtype=np.float64) * self.voxel_size_z
 
-        self.detector_us = np.linspace(-self.n_pixels_u / 2., self.n_pixels_u / 2., self.n_pixels_u,
-                                       dtype=np.float) * self.pixel_size_u + self.pixel_offset_u * self.pixel_size_u
-        self.detector_vs = np.linspace(-self.n_pixels_v / 2., self.n_pixels_v / 2., self.n_pixels_v,
-                                       dtype=np.float) * self.pixel_size_v + self.pixel_offset_v * self.pixel_size_v
+        self.detector_us = (np.arange(self.n_pixels_u, dtype=np.float64) -self.n_pixels_u/2. )* self.pixel_size_u + self.pixel_offset_u * self.pixel_size_u
+        self.detector_vs = (np.arange(self.n_pixels_v,dtype=np.float64)-self.n_pixels_v/2.) * self.pixel_size_v + self.pixel_offset_v * self.pixel_size_v
 
 
 def config_from_xtekct(file_path):
