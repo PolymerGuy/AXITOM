@@ -10,8 +10,7 @@ import matplotlib.pyplot as plt
 
 
 def main():
-    inputfile = parse_xtekct_file("example_data/radiogram.xtekct")
-    param = config_from_xtekct(inputfile)
+    param = fdk.config_from_xtekct("./example_data/radiogram.xtekct")
     param.n_voxels_x = 500
     param.n_voxels_y = 500
     param.n_voxels_z = 500
