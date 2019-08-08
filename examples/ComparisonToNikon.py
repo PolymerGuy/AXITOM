@@ -3,6 +3,13 @@ import numpy as np
 import FDK as fdk
 from scipy.ndimage.filters import median_filter
 
+"""
+This example reconstructs a tomogram from a single radiogram acquired by a Nikon XT-225st of axis-symmetric body.
+The results are then compared to the full tomogram reconstructed using NIKON CT-Pro.
+
+For easier comparison, a small normalization routine is used on the resulting tomogram.
+"""
+
 
 def normalize_grey_scales(image):
     reference_grey_scale = np.average(image[250:500, 0:250])
@@ -11,37 +18,31 @@ def normalize_grey_scales(image):
     return (image - background_grey_scale) / (reference_grey_scale - background_grey_scale)
 
 
-def main():
-    config = fdk.config_from_xtekct("./example_data/settings.xtekct")
-    file_names = [r"radiogram.tif"]
+def reconstruct_tomogram():
+    config = fdk.config_from_xtekct("./example_data/radiogram.xtekct")
 
-    for i, file_name in enumerate(file_names):
-        print("Processing file nr %i" % i)
-        radiogram = fdk.read_image(r"./example_data/" + file_name, flat_corrected=True)
+    radiogram = fdk.read_image(r"./example_data/radiogram.tif", flat_corrected=True)
+    # Remove some edges that are in field of view
+    radiogram[:250, :] = 0.95
+    radiogram[1800:, :] = 0.95
 
-        # Remove some edges that are in field of view
-        radiogram[:250, :] = 0.95
-        radiogram[1800:, :] = 0.95
+    radiogram = median_filter(radiogram, size=20)
 
-        radiogram = median_filter(radiogram, size=20)
+    _, center_offset = fdk.object_center_of_rotation(radiogram, config, background_internsity=0.9)
+    config.center_of_rot_y = center_offset
+    config.update()
 
-        _, center_offset = fdk.object_center_of_rotation(radiogram, config, background_internsity=0.9)
-        config.center_of_rot_y = center_offset
+    tomogram = fdk.fdk(radiogram, config)
 
-        config.update()
-
-        tomo = fdk.fdk(radiogram, config)
-
-        return tomo
+    return tomogram
 
 
-recon = main()
+recon_tomo = reconstruct_tomogram()
 
 correct = fdk.read_image(r"./example_data/recon_by_external_software.tif")
 correct_norm = normalize_grey_scales(correct.transpose())
 
-
-Reconimg_crop = recon.transpose()[:, ::-1][1:, :400]
+Reconimg_crop = recon_tomo.transpose()[:, ::-1][1:, :400]
 Reconimg_crop_norm = normalize_grey_scales(Reconimg_crop)
 
 plt.figure()
