@@ -80,7 +80,7 @@ We recommend that you always use virtual environments, either by virtualenv or b
 
 You can now run an example::
     
-    $ python <path_to_axitom>/examples/quick_start.py
+    $ python <path_to_axitom>/examples/comparison_to_Nikon.py
 
 ### Run the tests
 The tests should always be launched to check your installation.

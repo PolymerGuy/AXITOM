@@ -34,7 +34,7 @@ Virtual env::
 
 You can now run an example::
 
-    $ python path_to_axitom/Examples/quick_start.py
+    $ python path_to_axitom/examples/comparison_to_Nikon.py
 
 
 
@@ -42,10 +42,6 @@ Running the tests
 ------------------
 The tests should always be launched to check your installation.
 These tests are integration and unit tests
-
-If you installed via a package manger::
-
-    nosetests axitom
 
 If you cloned the repo, you have to call nosetests from within the folder::
 
