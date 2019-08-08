@@ -88,7 +88,7 @@ These tests are integration and unit tests.
 
 If you cloned the repo, you have to call nosetests from within the folder
 
-    $ nosetests axitom
+    $ nosetests
 
 
 Example
