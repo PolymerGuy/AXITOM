@@ -12,8 +12,8 @@ def normalize_grey_scales(image):
 
 
 def main():
-    config = fdk.config_from_xtekct("./example_data/R02_01.xtekct")
-    file_names = [r"R02_01.tif"]
+    config = fdk.config_from_xtekct("./example_data/settings.xtekct")
+    file_names = [r"radiogram.tif"]
 
     for i, file_name in enumerate(file_names):
         print("Processing file nr %i" % i)
@@ -28,7 +28,7 @@ def main():
         _, center_offset = fdk.object_center_of_rotation(radiogram, config, background_internsity=0.9)
         config.center_of_rot_y = center_offset
 
-        config.update_internals()
+        config.update()
 
         tomo = fdk.fdk(radiogram, config)
 
@@ -37,7 +37,7 @@ def main():
 
 recon = main()
 
-correct = fdk.read_image(r"./example_data/AVG_R02_01.tif")
+correct = fdk.read_image(r"./example_data/recon_by_external_software.tif")
 correct_norm = normalize_grey_scales(correct.transpose())
 
 

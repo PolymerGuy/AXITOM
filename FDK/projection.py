@@ -49,14 +49,14 @@ def axis_sym_projection(volume, param, angles=None):
         """
     modified_param = copy(param)
     if angles is not None:
-        modified_param.deg = angles
-        modified_param.nProj = len(modified_param.deg)
+        modified_param.projection_angs = angles
+        modified_param.nProj = len(modified_param.projection_angs)
     else:
-        modified_param.deg = np.linspace(0., 45., param.n_voxels_x / 2)
-        modified_param.nProj = len(modified_param.deg)
+        modified_param.projection_angs = np.linspace(0., 45., param.n_voxels_x / 2)
+        modified_param.nProj = len(modified_param.projection_angs)
 
     radiogram = np.zeros((param.n_pixels_u, param.n_pixels_v), dtype=np.float)
-    for i , angle_deg in  enumerate(param.projection_angs):
+    for i , angle_deg in  enumerate(modified_param.projection_angs):
         print("Projecting fram nr: ", i)
         radiogram += forward_project(volume, modified_param, angle_deg)
     return radiogram / np.float(modified_param.nProj)
