@@ -10,6 +10,7 @@ class TestMap_object_to_detector_coords(TestCase):
         config = Config()
         config.object_size_x = 200.
         config.object_size_y = 200.
+        config.object_size_z = 200.
         config.detector_size_u = config.object_size_x
         config.detector_size_v = config.object_size_y
 
@@ -43,14 +44,15 @@ class TestMap_object_to_detector_coords(TestCase):
 
         xs_error = np.abs(detector_a[:, :] - corr_us[:, np.newaxis])
 
-        print("xs",config.object_xs)
-        print("detector_a",detector_a[:10, 0])
-        print("corr_us",corr_us[:10])
-
         ys_error = np.abs(detector_b[:, :, :].transpose() - corr_vs[:, np.newaxis, np.newaxis])
 
         if np.max(xs_error) > tol or np.max(ys_error) > tol:
-            # print(xs_error[:, :])
+            print("Largest error: ",xs_error.max())
+            print("at positions: ",np.argmax(xs_error))
+
+            print("Largest error: ",ys_error.max())
+            print("at positions: ",np.argmax(ys_error))
+
             self.fail()
 
     def test_map_object_to_detector_coords_2xmag(self):
