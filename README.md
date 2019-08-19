@@ -57,6 +57,32 @@ Getting Started
 ---------------
 To get a local copy up and running follow these steps.
 
+### Install via package manager:
+
+The toolkit is available via PIP, and the instructions below shows how a virtual environment can be created
+and the toolkit installed.
+
+Prerequisites:
+
+    This toolkit is tested on Python 3.6
+    We recommend the use of virtualenv
+
+Installing:
+
+    $ virtualenv -p python3.6 env
+    $ source ./env/bin/activate #On Linux and Mac OS
+    $ env\Scripts\activate.bat #On Windows
+    $ pip install axitom
+    
+Now the toolkit is installed and ready for use.
+
+Run the tests:
+
+    $ nosetests axitom
+
+If you want to check out the examples, then download the files in the examples folder and run the examples.
+
+
 ### Clone the repo:
 
 These instructions will get you a copy of the project up and running on your 
@@ -64,9 +90,9 @@ local machine for development and testing purposes.
 
 Prerequisites:
 
-    This toolkit is tested on Python 3.7
+    This toolkit is tested on Python 3.6
+    We recommend the use of virtualenv
 
-Installing:
 
 Clone this repo to your preferred location
 
@@ -75,7 +101,7 @@ Clone this repo to your preferred location
     
 We recommend that you always use virtual environments, either by virtualenv or by Conda env
     
-    $ python -m venv env
+    $ virtualenv -p python3.6 env
     $ source ./env/bin/activate #On Linux and Mac OS
     $ env\Scripts\activate.bat #On Windows
     $ pip install -r requirements.txt
@@ -88,7 +114,7 @@ You can now run an example::
 The tests should always be launched to check your installation.
 These tests are integration and unit tests.
 
-If you cloned the repo, you have to call nosetests from within the folder
+If you cloned the repo, you have to call pytest from within the folder
 
     $ pytest
 
@@ -108,7 +134,7 @@ from the .xtekct file
 
 We now import the radiogram
 
-     radiogram = tom.read_image(r"./example_data/R02_01.tif, flat_corrected=True)
+     radiogram = tom.read_image(r"./example_data/R02_01.tif", flat_corrected=True)
 
 and we remove the top and bottom of the image. This is necessary in this example, as the fixtures will interfere with
 the algorithm used to find the centre of rotation
@@ -131,7 +157,7 @@ and subsequently determining the centre of gravity of the object
 The config object has to be updated with the correct values
 
      config.center_of_rot_y = center_offset
-     config.update_internals()
+     config.update()
 
 We are now ready to initiate the reconstruction
 
@@ -140,8 +166,9 @@ We are now ready to initiate the reconstruction
 
 The results can then be visualized
 
-   plt.title("Radial slice")
-   plt.imshow(tomo.transpose(), cmap=plt.cm.magma)
+    import matplotlib.pyplot as plt
+    plt.title("Radial slice")
+    plt.imshow(tomo.transpose(), cmap=plt.cm.magma)
    
 
 <img src="./docs/results.png" alt="Results" width="300"/>
