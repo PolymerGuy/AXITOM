@@ -1,6 +1,6 @@
 import numpy as np
-import FDK as fdk
-from FDK.phantoms import barrel
+import axitom
+from axitom.phantoms import barrel
 from unittest import TestCase
 import os
 
@@ -12,7 +12,7 @@ class Test_SimulatedProjections(TestCase):
         dir_path = os.path.dirname(os.path.realpath(__file__))
 
         # Set the same settings as used in the forward projection
-        param = fdk.config_from_xtekct(dir_path + "/example_data/settings.xtekct")
+        param = axitom.config_from_xtekct(dir_path + "/example_data/settings.xtekct")
         param.n_voxels_x = 500
         param.n_voxels_y = 500
         param.n_voxels_z = 500
@@ -23,7 +23,7 @@ class Test_SimulatedProjections(TestCase):
         proj = np.load(dir_path + path_to_projections)
         proj = np.exp(-proj)
 
-        reconstruction = fdk.fdk(proj, param)
+        reconstruction = axitom.fdk(proj, param)
 
         # Note that the reconstruction give the radial slice only
         deviation_field = np.abs(correct_body[:250, 250, :] - reconstruction)

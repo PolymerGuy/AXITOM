@@ -6,7 +6,7 @@ class Config(object):
 
     def __init__(self):
         """ Configuration object which contains all settings neccessary for the forward projection
-            and tomographic reconstruction using the FDK algorithm.
+            and tomographic reconstruction using the axitom algorithm.
 
         """
 

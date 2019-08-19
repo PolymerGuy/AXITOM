@@ -1,6 +1,6 @@
 from unittest import TestCase
-from FDK.config import Config
-from FDK.backprojection import map_object_to_detector_coords
+from axitom.config import Config
+from axitom.backprojection import map_object_to_detector_coords
 import numpy as np
 
 

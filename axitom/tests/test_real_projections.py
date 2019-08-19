@@ -1,5 +1,5 @@
 import numpy as np
-import FDK as fdk
+import axitom
 from unittest import TestCase
 from scipy.ndimage.filters import median_filter
 import os
@@ -7,8 +7,8 @@ import os
 
 def run_reconstruction():
     dir_path = os.path.dirname(os.path.realpath(__file__))
-    config = fdk.config_from_xtekct(dir_path + "/example_data/settings.xtekct")
-    radiogram = fdk.read_image(dir_path + "/example_data/radiogram.tif", flat_corrected=True)
+    config = axitom.config_from_xtekct(dir_path + "/example_data/settings.xtekct")
+    radiogram = axitom.read_image(dir_path + "/example_data/radiogram.tif", flat_corrected=True)
 
     # Remove some edges that are in field of view
     radiogram[:250, :] = 0.95
@@ -16,12 +16,12 @@ def run_reconstruction():
 
     radiogram = median_filter(radiogram, size=20)
 
-    _, center_offset = fdk.object_center_of_rotation(radiogram, config, background_internsity=0.9)
+    _, center_offset = axitom.object_center_of_rotation(radiogram, config, background_internsity=0.9)
     config.center_of_rot_y = center_offset
 
     config.update()
 
-    reconstruction = fdk.fdk(radiogram, config)
+    reconstruction = axitom.fdk(radiogram, config)
 
     return reconstruction
 
@@ -47,7 +47,7 @@ class Test_CompareToExternalSoftware(TestCase):
         recon_crop = recon.transpose()[:, ::-1][1:, :400]
         recon_crop_norm = normalize_grey_scales(recon_crop)
 
-        correct = fdk.read_image(dir_path + "/example_data/recon_by_external_software.tif")
+        correct = axitom.read_image(dir_path + "/example_data/recon_by_external_software.tif")
         correct_norm = normalize_grey_scales(correct.transpose())
 
         error_field = np.abs(recon_crop_norm[::-1, :] - correct_norm)

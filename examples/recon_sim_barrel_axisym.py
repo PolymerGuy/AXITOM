@@ -1,6 +1,6 @@
-import FDK as fdk
+import axitom
 import numpy as np
-from FDK.phantoms import barrel
+from axitom.phantoms import barrel
 import matplotlib.pyplot as plt
 
 """
@@ -10,7 +10,7 @@ The tomogram is then compared to the body that was forward projected.
 
 
 def main():
-    config = fdk.config_from_xtekct("./example_data/radiogram.xtekct")
+    config = axitom.config_from_xtekct("./example_data/radiogram.xtekct")
     config.n_voxels_x = 500
     config.n_voxels_y = 500
     config.n_voxels_z = 500
@@ -22,7 +22,7 @@ def main():
 
     radiograms = np.exp(-radiograms)
 
-    tomogram = fdk.fdk(radiograms, config)
+    tomogram = axitom.fdk(radiograms, config)
 
     return tomogram
 

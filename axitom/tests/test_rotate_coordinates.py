@@ -1,6 +1,6 @@
 from unittest import TestCase
 import numpy as np
-from FDK.backprojection import rotate_coordinates
+from axitom.backprojection import rotate_coordinates
 
 class Test_RotateCoordinates(TestCase):
     def test_rotate_coordinates_90deg(self):

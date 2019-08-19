@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
-import FDK as fdk
+import axitom
 from scipy.ndimage.filters import median_filter
 
 """
@@ -19,27 +19,27 @@ def normalize_grey_scales(image):
 
 
 def reconstruct_tomogram():
-    config = fdk.config_from_xtekct("./example_data/radiogram.xtekct")
+    config = axitom.config_from_xtekct("./example_data/radiogram.xtekct")
 
-    radiogram = fdk.read_image(r"./example_data/radiogram.tif", flat_corrected=True)
+    radiogram = axitom.read_image(r"./example_data/radiogram.tif", flat_corrected=True)
     # Remove some edges that are in field of view
     radiogram[:250, :] = 0.95
     radiogram[1800:, :] = 0.95
 
     radiogram = median_filter(radiogram, size=20)
 
-    _, center_offset = fdk.object_center_of_rotation(radiogram, config, background_internsity=0.9)
+    _, center_offset = axitom.object_center_of_rotation(radiogram, config, background_internsity=0.9)
     config.center_of_rot_y = center_offset
     config.update()
 
-    tomogram = fdk.fdk(radiogram, config)
+    tomogram = axitom.fdk(radiogram, config)
 
     return tomogram
 
 
 recon_tomo = reconstruct_tomogram()
 
-correct = fdk.read_image(r"./example_data/recon_by_external_software.tif")
+correct = axitom.read_image(r"./example_data/recon_by_external_software.tif")
 correct_norm = normalize_grey_scales(correct.transpose())
 
 Reconimg_crop = recon_tomo.transpose()[:, ::-1][1:, :400]

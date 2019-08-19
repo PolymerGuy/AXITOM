@@ -1,9 +1,9 @@
 from unittest import TestCase
-from FDK.phantoms import barrel
-from FDK.projection import axis_sym_projection
+from axitom.phantoms import barrel
+from axitom.projection import axis_sym_projection
 import numpy as np
 import os
-import FDK as fdk
+import axitom
 
 
 
@@ -16,7 +16,7 @@ class TestAxis_sym_projection(TestCase):
         tol = 1e-6
 
         dir_path = os.path.dirname(os.path.realpath(__file__))
-        param = fdk.config_from_xtekct(dir_path + "/example_data/settings.xtekct")
+        param = axitom.config_from_xtekct(dir_path + "/example_data/settings.xtekct")
         param.n_voxels_x = 100
         param.n_voxels_y = 100
         param.n_voxels_z = 100
