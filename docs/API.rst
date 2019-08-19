@@ -1,14 +1,12 @@
-.. AXITOM documentation master file, created by
-   sphinx-quickstart on Tue Jun 25 21:12:55 2019.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
+
 
 API documentation
 =================
+This document contains the documentation contained within the docstrings of all available functions and classes.
 
 
 Back projection
---------------
+---------------
 
 .. autofunction:: FDK.backprojection.map_object_to_detector_coords
 
@@ -17,13 +15,20 @@ Back projection
 
 
 Forward projection
---------------
-
-.. autofunction:: FDK.projection.forward_project
-
+------------------
 
 .. autofunction:: FDK.projection.axis_sym_projection
 
+
+Config
+------
+
+.. autofunction:: FDK.config.config_from_xtekct
+
+.. autoclass:: FDK.config.Config
+   :members:
+
+   .. automethod:: __init__
 
 
 Filtering
@@ -41,15 +46,13 @@ Filtering
 Parse files
 -----------
 
-.. autofunction:: FDK.phantoms.parse_xtekct_file
+.. autofunction:: FDK.parse.parse_xtekct_file
 
 
 Phantoms
 --------
 
 .. autofunction:: FDK.phantoms.barrel
-
-.. autofunction:: FDK.phantoms.barrel_gradient
 
 
 Utilities
