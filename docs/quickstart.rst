@@ -19,7 +19,7 @@ from the .xtekct file::
 
 We now import the radiogram::
 
-     radiogram = tom.read_image(r"./example_data/R02_01.tif, flat_corrected=True)
+     radiogram = tom.read_image(r"./example_data/R02_01.tif", flat_corrected=True)
 
 And we remove the top and bottom of the image. This is necessary in this example, as the fixtures will interfere with
 the algorithm used to find the center of rotation::
@@ -41,7 +41,7 @@ and determining the center of gravity of the object::
 The config object has to be updated with the correct values::
 
      config.center_of_rot_y = center_offset
-     config.update_internals()
+     config.update()
 
 We are now ready to initiate the reconstruction::
 
@@ -50,6 +50,7 @@ We are now ready to initiate the reconstruction::
 
 The results can then be visualized::
 
+   import matplotlib.pyplot as plt
    plt.title("Radial slice")
    plt.imshow(tomo.transpose(), cmap=plt.cm.magma)
 
