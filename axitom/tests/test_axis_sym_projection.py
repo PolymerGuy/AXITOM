@@ -36,8 +36,6 @@ class TestAxis_sym_projection(TestCase):
 
         param.update()
 
-        print(param.detector_us)
-
         volume = barrel(100)
 
         angles = [0.]

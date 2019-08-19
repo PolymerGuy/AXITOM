@@ -6,7 +6,7 @@
 [![codecov](https://codecov.io/gh/PolymerGuy/AXITOM/branch/master/graph/badge.svg)](https://codecov.io/gh/PolymerGuy/AXITOM)
 [![MIT License][license-shield]][license-url]
 [![Documentation Status](https://readthedocs.org/projects/axitom/badge/?version=latest)](https://axitom.readthedocs.io/en/latest/?badge=latest)
-
+[![PyPI version](https://badge.fury.io/py/axitom.svg)](https://badge.fury.io/py/axitom)
 
 <!-- PROJECT LOGO -->
 <br />
