@@ -41,7 +41,7 @@ jobs:
           name: run tests
           command: |
             . venv/bin/activate
-            pytest --pyargs FDK --cov=./
+            pytest --pyargs axitom --cov=./
             codecov -t $CODECOV_TOKEN
 
       - store_artifacts:

@@ -47,7 +47,7 @@ class Test_SimulatedProjections(TestCase):
         """
 
         self.tol = 2e-2
-        path_to_projections = "/example_data/barrel_projections_axisym.npy"
+        path_to_projections = r"/example_data/barrel_projections_axisym.npy"
         correct = barrel(500)
         self.run_reconstruction_and_compare(path_to_projections, correct)
 
@@ -57,6 +57,6 @@ class Test_SimulatedProjections(TestCase):
         the radiograms were produced.
         """
         self.tol = 2e-2
-        path_to_projections = "/example_data/barrel_grad_projections_axisym.npy"
+        path_to_projections = r"/example_data/barrel_grad_projections_axisym.npy"
         correct = barrel(500, center_val=0.5)
         self.run_reconstruction_and_compare(path_to_projections, correct)
