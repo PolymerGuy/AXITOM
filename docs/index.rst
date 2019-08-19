@@ -11,8 +11,8 @@ which have been adapted such that is exploits the axis-symmetric nature of the t
 
 This toolkit has a highly specialised usage, and there are plenty of more general and excellent frameworks for tomographic reconstruction, such as:
 
- * [TomoPy](https://github.com/tomopy/tomopy) (General computed tomography, cone and parallel beam geometry)
- * [PyAbel](https://github.com/PyAbel/PyAbel) (Computed tomography based on the inverse Abel transform, parallel beam geometry)
+ * TomoPy (https://github.com/tomopy/tomopy) General computed tomography, cone and parallel beam geometry
+ * PyAbel (https://github.com/PyAbel/PyAbel) Computed tomography based on the inverse Abel transform, parallel beam geometry
 
 This project aims at providing a simple, accessible toolkit for forward-projection and reconstruction of
 axis-symmetric tomograms based on a conical beam geometry.
