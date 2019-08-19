@@ -10,6 +10,7 @@ This python package provides tools for axis-symmetric cone-beam computed tomogra
 which have been adapted such that is exploits the axis-symmetric nature of the tomogram.
 
 This toolkit has a highly specialised usage, and there are plenty of more general and excellent frameworks for tomographic reconstruction, such as:
+
  * [TomoPy](https://github.com/tomopy/tomopy) (General computed tomography, cone and parallel beam geometry)
  * [PyAbel](https://github.com/PyAbel/PyAbel) (Computed tomography based on the inverse Abel transform, parallel beam geometry)
 
