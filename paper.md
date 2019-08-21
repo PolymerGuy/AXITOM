@@ -9,8 +9,7 @@ authors:
   - name: Sindre Nordmark Olufsen
     affiliation: 1
 affiliations:
- - name: Structural Impact Laboratory (SIMLab), Department of Structural Engineering, NTNU, Norwegian University of Science and Technology,
-NO-7491 Trondheim, Norway
+ - name: Structural Impact Laboratory (SIMLab), Department of Structural Engineering, NTNU, Norwegian University of Science and Technology, NO-7491 Trondheim, Norway
    index: 1
 date: 08 August 2019
 bibliography: paper.bib
