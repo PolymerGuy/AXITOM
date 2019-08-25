@@ -3,6 +3,8 @@ import natsort
 import os
 from imageio import imread
 
+import matplotlib.pyplot as plt
+from scipy.ndimage import shift, rotate
 
 def find_center_of_gravity_in_radiogram(radiogram, background_internsity=0.9):
     """ Find axis of rotation in the radiogram.
@@ -35,6 +37,80 @@ def find_center_of_gravity_in_radiogram(radiogram, background_internsity=0.9):
     center_of_grav_y = np.average(np.sum(ys * covered_pixels, axis=0) / np.sum(covered_pixels, axis=0)) - n / 2.
     return center_of_grav_x, center_of_grav_y
 
+
+def find_center_of_gravity_in_radiogram_ang(radiogram, background_internsity=0.9):
+    """ Find axis of rotation in the radiogram.
+        This is done by binarization of the image into object and background
+        and determining the center of gravity of the object.
+
+        Parameters
+        ----------
+        radiogram : ndarray
+            The radiogram, normalized between 0 and 1
+        background_internsity : float
+            The background intensity threshold
+
+
+        Returns
+        -------
+        float64
+            The center of gravity in the u-direction
+        float64
+            The center of gravity in the v-direction
+
+        """
+    n, m = np.shape(radiogram)
+    xs, ys = np.meshgrid(np.arange(m), np.arange(n))
+    covered_pixels = np.zeros_like(radiogram,dtype=np.float)
+    covered_pixels[radiogram < background_internsity] = 1.
+
+    # Determine center of gravity
+    center_of_grav_x = np.average(np.sum(xs * covered_pixels, axis=1) / np.sum(covered_pixels, axis=1)) - m / 2.
+    center_of_grav_y = np.average(np.sum(ys * covered_pixels, axis=0) / np.sum(covered_pixels, axis=0)) - n / 2.
+
+    # Determine center of gravity for each line
+    center_of_grav_y_linewise = np.sum(ys * covered_pixels, axis=0) / np.sum(covered_pixels, axis=0) - n / 2.
+
+    res = np.polyfit(np.arange(len(center_of_grav_y_linewise)),center_of_grav_y_linewise,deg=1)
+
+    angle = np.arctan(res[0])
+    angle = np.rad2deg(angle)
+    print("Angle before correction",angle)
+    angle_rot = angle
+
+
+    covered_pixels =  rotate(covered_pixels,angle,order=3,reshape=False)
+
+    covered_pixels = covered_pixels[:,20:-20]
+    xs = xs[:,20:-20]
+    ys = ys[:,20:-20]
+
+    ###############
+    # Determine center of gravity
+    center_of_grav_x = np.average(np.sum(xs * covered_pixels, axis=1) / np.sum(covered_pixels, axis=1)) - m / 2.
+    center_of_grav_y = np.average(np.sum(ys * covered_pixels, axis=0) / np.sum(covered_pixels, axis=0)) - n / 2.
+
+    # Determine center of gravity for each line
+    center_of_grav_y_linewise = np.sum(ys * covered_pixels, axis=0) / np.sum(covered_pixels, axis=0) - n / 2.
+
+    res = np.polyfit(np.arange(len(center_of_grav_y_linewise)),center_of_grav_y_linewise,deg=1)
+    angle = np.rad2deg(np.arctan(res[0]))
+    print("Angle after correction",angle)
+
+    #######################
+
+
+
+    # print(res)
+#
+    # plt.figure()
+    # plt.plot(center_of_grav_y_linewise)
+#
+    # plt.figure()
+    # plt.imshow(covered_pixels)
+    # plt.show()
+
+    return center_of_grav_x, center_of_grav_y, angle_rot
 
 def object_center_of_rotation(radiogram, param, background_internsity=0.9, method="center_of_gravity"):
     """ Find the axis of rotation of the object pictures in the radiogram
@@ -72,6 +148,43 @@ def object_center_of_rotation(radiogram, param, background_internsity=0.9, metho
     scale = (param.source_to_object_dist / param.source_to_detector_dist) * param.pixel_size_u
 
     return scale * center_x, scale * center_y
+
+def object_center_of_rotation_ang(radiogram, param, background_internsity=0.9, method="center_of_gravity"):
+    """ Find the axis of rotation of the object pictures in the radiogram
+        This is done by determining the center of rotation of the radiogram and scaling the coordinates
+        to object coordinates
+
+        Parameters
+        ----------
+        radiogram : ndarray
+            The radiogram, normalized between 0 and 1
+        param : object
+            The parameters used for the tomographic reconstruction
+        background_internsity : float
+            The background intensity threshold
+        method : string
+            The background intensity threshold
+
+
+        Returns
+        -------
+        float64
+            The center of gravity in the x-direction
+        float64
+            The center of gravity in the y-direction
+
+        """
+    if radiogram.ndim != 2:
+        raise ValueError("Invalid radiogram shape. It has to be a 2d numpy array")
+
+    if method == "center_of_gravity":
+        center_x,center_y, angx = find_center_of_gravity_in_radiogram_ang(radiogram,background_internsity)
+    else:
+        raise ValueError("Invalid method")
+
+    scale = (param.source_to_object_dist / param.source_to_detector_dist) * param.pixel_size_u
+
+    return scale * center_x, scale * center_y,angx
 
 
 def rotate_coordinates(xs_array, ys_array, angle_rad):
