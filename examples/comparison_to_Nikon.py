@@ -37,7 +37,14 @@ def reconstruct_tomogram():
     return tomogram
 
 
+
+
+
 recon_tomo = reconstruct_tomogram()
+
+plt.imshow(recon_tomo)
+plt.show()
+
 
 correct = fdk.read_image(r"./example_data/recon_by_external_software.tif")
 correct_norm = normalize_grey_scales(correct.transpose())

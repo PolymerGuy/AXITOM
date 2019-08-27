@@ -3,7 +3,6 @@ import natsort
 import os
 from imageio import imread
 
-
 def find_center_of_gravity_in_radiogram(radiogram, background_internsity=0.9):
     """ Find axis of rotation in the radiogram.
         This is done by binarization of the image into object and background
@@ -171,4 +170,4 @@ def read_image(file_path, flat_corrected=False):
         image =  np.average(image, axis=2)
     if flat_corrected:
         image = image/image.max()
-    return image.transpose()
+    return np.array(image).transpose()

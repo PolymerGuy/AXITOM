@@ -83,8 +83,8 @@ def fdk_axisym(projection, settings):
         ratio = (settings.source_to_object_dist ** 2.) / (settings.source_to_object_dist + x_rotated) ** 2.
 
         recon_slice = recon_slice + ratio[:, np.newaxis] * map_coordinates(projection,
-                                                                           [detector_cords_a, detector_cords_b],
-                                                                           cval=0., order=1)
+                                                                           [detector_cords_a, detector_cords_b],mode="reflect",
+                                                                           order=1)
 
     return recon_slice / np.float(settings.n_projections)
 
@@ -124,7 +124,7 @@ def fdk(projection, param):
         raise IOError("Only instances of Param are valid settings")
 
     if type(projection) != np.ndarray:
-        raise IOError("The projections have to be in a numpy ndarray")
+        raise IOError("The projections have to be in a numpy ndarray, not: %s"%type(projection))
 
 
     projection = -np.log(projection)
