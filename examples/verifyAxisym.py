@@ -12,16 +12,17 @@ def rebin(arr, new_shape):
              new_shape[1], arr.shape[1] // new_shape[1])
     return arr.reshape(shape).mean(-1).mean(1)
 
-print("pipp")
-path = "/home/sindreno/InSituCT/radiograms/"
-radiogram_names = axitom.list_files_in_folder(path)[99:]
+first_frame = int((170./1000.) * 101.)
+print("First frame is: ",first_frame)
+path = "/home/sindreno/InSituCt/PVCForPaper/radiograms/"
+radiogram_names = axitom.list_files_in_folder(path)[:]
 
 config = axitom.config_from_xtekct(path + "testSamplePVC6_1fps_gain12.xtekct")
 
 print("pipp")
 
-dark = [axitom.read_image(r"/home/sindreno/InSituCT/shades/Dark.tif")]
-flat = [axitom.read_image(r"/home/sindreno/InSituCT/shades/Flat.tif")]
+dark = [axitom.read_image(r"/home/sindreno/InSituCt/PVCForPaper/flatAndDarks/Dark_160kV160uA.tif")]
+flat = [axitom.read_image(r"/home/sindreno/InSituCt/PVCForPaper/flatAndDarks/Flat_160kV160uA.tif")]
 
 offsets_raw = []
 errors_raw = []
@@ -29,12 +30,15 @@ errors_raw = []
 offsets_filt = []
 errors_filt = []
 
+angle_raw = []
+angle_filtered = []
+
 i=0
-filtered = [False]
+filtered = [True]
 
 for filt in filtered:
-    for radiogram_name in radiogram_names:
-        i+=1
+    for i,radiogram_name in enumerate(radiogram_names):
+
         radiogram_uncor = [axitom.read_image(path+radiogram_name)]
 
 
@@ -56,10 +60,12 @@ for filt in filtered:
             radiogram = median_filter(radiogram, size=20)
 
         _, center_offset,angle = axitom.object_center_of_rotation_ang(radiogram[:,:1700], config, background_internsity=0.96)
+        radiogram = rotate(radiogram, angle, order=3, reshape=False,cval=0.99)
+        _, center_offset,_ = axitom.object_center_of_rotation_ang(radiogram[:,:1700], config, background_internsity=0.96)
+
 
         print("Center offset on unrotated image: ",center_offset)
 
-        radiogram = rotate(radiogram, angle, order=3, reshape=False,cval=0.99)
         config.center_of_rot_y = center_offset
 
         config.update()
@@ -96,18 +102,21 @@ for filt in filtered:
         bin_image = np.abs(error[:700, :]).transpose()
         # print(bin_image.shape)
         bin_image = rebin(bin_image,(500,175))
-        plt.imshow(np.abs(bin_image),vmin=0.003,vmax=0.01,cmap=plt.cm.plasma)
-        # # plt.imsave("/home/sindreno/artefacts/radiogram_error_80.png",  np.abs(bin_image),vmin=0.0,vmax=0.01,cmap=plt.cm.plasma)
-        plt.show()
+        #plt.imshow(np.abs(bin_image),vmin=0.003,vmax=0.01,cmap=plt.cm.plasma)
+        #plt.imsave("/home/sindreno/InSituCt/PVCForPaper/artefacts/radiogram_error%i.png"%i,  np.abs(bin_image),vmin=0.003,vmax=0.01,cmap=plt.cm.plasma)
+        #plt.show()
 
         error[right>0.9] = np.nan
 
         if filt:
-            errors_filt.append(np.nanmean(error[:700, :1700]))
+            errors_filt.append(np.nanstd(error[:700, :1700]))
             offsets_filt.append(pix_shift)
+            angle_filtered.append(angle)
+
         else:
-            errors_raw.append(np.nanmean(error[:700, :1700]))
+            errors_raw.append(np.nanstd(error[:700, :1700]))
             offsets_raw.append(pix_shift)
+            angle_raw.append(angle)
 
 
 
@@ -119,6 +128,27 @@ for filt in filtered:
     # tomogram = axitom.fdk(np.array(radiogram), config)
     # plt.imshow(tomogram)
     # plt.show()
+
+plt.close()
+fig, ax1 = plt.subplots()
+ax1.plot(offsets_raw,  color="black")
+ax1.set_xlim(xmin=0)
+ax1.set_ylim(ymin=np.min(offsets_raw))
+ax1.set_xlabel("Frame [-]")
+ax1.tick_params('y')
+ax1.set_ylabel("Center axis offset [pix]")
+
+ax2 = ax1.twinx()
+ax2.plot(angle_raw, color="red")
+ax2.set_ylabel("Center axis angle [deg]",color="red")
+ax2.tick_params('y', colors='red')
+ax2.set_ylim(ymin=np.min(angle_raw))
+
+
+plt.tight_layout()
+
+plt.show()
+
 
 
 plt.close()
