@@ -1,7 +1,15 @@
+# Change current work path to aid relative imports of data
+import sys
+from os.path import join, abspath
+
+sys.path.extend([abspath(".")])
+
 import axitom
 import numpy as np
 from axitom.phantoms import barrel
 import matplotlib.pyplot as plt
+
+path_to_data = "./axitom/tests/example_data/"
 
 """
 This example reconstructs a tomogram from a single projection, forward projected using the function fdk.axis_sym_projection.
@@ -10,7 +18,7 @@ The tomogram is then compared to the body that was forward projected.
 
 
 def main():
-    config = axitom.config_from_xtekct("./example_data/radiogram.xtekct")
+    config = axitom.config_from_xtekct(join(path_to_data, "radiogram.xtekct"))
     config.n_voxels_x = 500
     config.n_voxels_y = 500
     config.n_voxels_z = 500
@@ -18,7 +26,7 @@ def main():
     config.n_pixels_v = 500
     config.update()
 
-    radiograms = np.load("proj_barrel.npy")
+    radiograms = np.load(join(path_to_data, "proj_barrel.npy"))
 
     radiograms = np.exp(-radiograms)
 

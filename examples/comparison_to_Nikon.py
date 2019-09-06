@@ -1,7 +1,15 @@
+# Change current work path to aid relative imports of data
+import sys
+from os.path import join, abspath
+
+sys.path.extend([abspath(".")])
+
 import matplotlib.pyplot as plt
 import numpy as np
 import axitom
 from scipy.ndimage.filters import median_filter
+
+path_to_data = "./axitom/tests/example_data/"
 
 """
 This example reconstructs a tomogram from a single radiogram acquired by a Nikon XT-225st of axis-symmetric body.
@@ -19,9 +27,9 @@ def normalize_grey_scales(image):
 
 
 def reconstruct_tomogram():
-    config = axitom.config_from_xtekct("./example_data/radiogram.xtekct")
+    config = axitom.config_from_xtekct(join(path_to_data, "radiogram.xtekct"))
 
-    radiogram = axitom.read_image(r"./example_data/radiogram.tif", flat_corrected=True)
+    radiogram = axitom.read_image(join(path_to_data, "radiogram.tif"), flat_corrected=True)
     # Remove some edges that are in field of view
     radiogram[:250, :] = 0.95
     radiogram[1800:, :] = 0.95
@@ -39,7 +47,7 @@ def reconstruct_tomogram():
 
 recon_tomo = reconstruct_tomogram()
 
-correct = axitom.read_image(r"./example_data/recon_by_external_software.tif")
+correct = axitom.read_image(join(path_to_data, "recon_by_external_software.tif"))
 correct_norm = normalize_grey_scales(correct.transpose())
 
 Reconimg_crop = recon_tomo.transpose()[:, ::-1][1:, :400]
