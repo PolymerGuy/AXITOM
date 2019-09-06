@@ -3,6 +3,8 @@ import natsort
 import os
 from imageio import imread
 
+import matplotlib.pyplot as plt
+
 
 def find_center_of_gravity_in_radiogram(radiogram, background_internsity=0.9):
     """ Find axis of rotation in the radiogram.
@@ -26,13 +28,25 @@ def find_center_of_gravity_in_radiogram(radiogram, background_internsity=0.9):
 
         """
     n, m = np.shape(radiogram)
-    xs, ys = np.meshgrid(np.arange(m), np.arange(n))
-    covered_pixels = np.zeros_like(radiogram,dtype=np.float)
-    covered_pixels[radiogram < background_internsity] = 1.
+
+    binary_radiogram = np.zeros_like(radiogram, dtype=np.float)
+    binary_radiogram[radiogram < background_internsity] = 1.
+
+    area_x = np.sum(binary_radiogram, axis=1)
+    area_y = np.sum(binary_radiogram, axis=0)
+
+    non_zero_rows = np.arange(n)[area_y != 0.]
+    non_zero_columns = np.arange(m)[area_x != 0.]
+
+    # Now removing all columns that does not intersect the object
+    object_pixels = binary_radiogram[non_zero_columns, :][:, non_zero_rows]
+    area_x = area_x[non_zero_columns]
+    area_y = area_y[non_zero_rows]
+    xs, ys = np.meshgrid(non_zero_rows,non_zero_columns)
 
     # Determine center of gravity
-    center_of_grav_x = np.average(np.sum(xs * covered_pixels, axis=1) / np.sum(covered_pixels, axis=1)) - m / 2.
-    center_of_grav_y = np.average(np.sum(ys * covered_pixels, axis=0) / np.sum(covered_pixels, axis=0)) - n / 2.
+    center_of_grav_x = np.average(np.sum(xs * object_pixels, axis=1) / area_x) - m / 2.
+    center_of_grav_y = np.average(np.sum(ys * object_pixels, axis=0) / area_y) - n / 2.
     return center_of_grav_x, center_of_grav_y
 
 
@@ -65,7 +79,7 @@ def object_center_of_rotation(radiogram, param, background_internsity=0.9, metho
         raise ValueError("Invalid radiogram shape. It has to be a 2d numpy array")
 
     if method == "center_of_gravity":
-        center_x,center_y = find_center_of_gravity_in_radiogram(radiogram,background_internsity)
+        center_x, center_y = find_center_of_gravity_in_radiogram(radiogram, background_internsity)
     else:
         raise ValueError("Invalid method")
 
@@ -168,7 +182,7 @@ def read_image(file_path, flat_corrected=False):
         """
     image = imread(file_path).astype(np.float64)
     if image.ndim == 3:
-        image =  np.average(image, axis=2)
+        image = np.average(image, axis=2)
     if flat_corrected:
-        image = image/image.max()
+        image = image / image.max()
     return image.transpose()
