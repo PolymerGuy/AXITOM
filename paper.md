@@ -36,4 +36,5 @@ investigation of cavitation of polymers during deformation.
 
 # Acknowledgements
 The author gratefully appreciates the financial support from the Research Council of Norway through the Centre for Advanced Structural Analysis, Project No. 237885 (SFI-CASA).
+
 # References
