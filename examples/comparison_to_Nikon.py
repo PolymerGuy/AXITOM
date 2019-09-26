@@ -43,10 +43,10 @@ def reconstruct_tomogram():
 
     config.n_pixels_u = 1500
     config.detector_size_u = config.detector_size_u * (1500.0/2000.)
-    config.n_voxels_x = 1500
-    config.n_voxels_y = 1500
-    config.object_size_x = config.object_size_x * (1500./2000.)
-    config.object_size_y = config.object_size_y * (1500./2000.)
+    # config.n_voxels_x = 1500
+    # config.n_voxels_y = 1500
+    # config.object_size_x = config.object_size_x * (1500./2000.)
+    # config.object_size_y = config.object_size_y * (1500./2000.)
     config.update()
 
 

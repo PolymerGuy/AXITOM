@@ -58,7 +58,7 @@ def map_object_to_detector_coords(object_xs, object_ys, object_zs, settings):
 def fdk_axisym(projection, settings):
 
     proj_width, proj_height = projection.shape
-    proj_center = int(proj_width / 2)
+    proj_center = int(proj_height / 2)
 
     # Allocate an empty array
     recon_slice = np.zeros((proj_center, proj_height), dtype=np.float)
