@@ -3,7 +3,6 @@ import natsort
 import os
 from imageio import imread
 
-import matplotlib.pyplot as plt
 
 
 def find_center_of_gravity_in_radiogram(radiogram, background_internsity=0.9):

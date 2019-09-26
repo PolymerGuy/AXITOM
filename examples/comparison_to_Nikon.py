@@ -36,8 +36,6 @@ def reconstruct_tomogram():
 
     radiogram = radiogram[250:1750,:]
 
-    plt.imshow(radiogram)
-    plt.show()
 
     radiogram = median_filter(radiogram, size=21)
 

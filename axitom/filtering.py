@@ -1,6 +1,5 @@
 import scipy.signal as sig
 import numpy as np
-import matplotlib.pyplot as plt
 
 def ramp_kernel_real(cutoff, length):
     """Ramp filter kernel in real space defined by the cut-off frequency and the spatial dimension
@@ -46,8 +45,6 @@ def add_weights(projections, settings):
         settings.source_to_detector_dist ** 2. + uu ** 2. + vv ** 2.)
 
 
-    plt.imshow(weights)
-    plt.show()
     return projections * weights[:, :, np.newaxis]
 
 
