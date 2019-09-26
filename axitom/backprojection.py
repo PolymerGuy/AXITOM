@@ -3,6 +3,7 @@ from scipy.ndimage import map_coordinates
 from .utilities import rotate_coordinates
 from .filtering import ramp_filter_and_weight
 from .config import Config
+import matplotlib.pyplot as plt
 
 
 def map_object_to_detector_coords(object_xs, object_ys, object_zs, settings):
@@ -131,6 +132,9 @@ def fdk(projection, param):
 
     if projection.ndim == 2:
         projection_filtered = ramp_filter_and_weight(projection[:, :, np.newaxis], param)
+        plt.imshow(projection_filtered[:,:,0])
+        plt.show()
+
     else:
         raise IOError("The projection has to be a 2D array")
 

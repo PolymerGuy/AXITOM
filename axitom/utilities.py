@@ -27,7 +27,7 @@ def find_center_of_gravity_in_radiogram(radiogram, background_internsity=0.9):
             The center of gravity in the v-direction
 
         """
-    n, m = np.shape(radiogram)
+    m, n = np.shape(radiogram)
 
     binary_radiogram = np.zeros_like(radiogram, dtype=np.float)
     binary_radiogram[radiogram < background_internsity] = 1.
@@ -45,8 +45,8 @@ def find_center_of_gravity_in_radiogram(radiogram, background_internsity=0.9):
     xs, ys = np.meshgrid(non_zero_rows,non_zero_columns)
 
     # Determine center of gravity
-    center_of_grav_x = np.average(np.sum(xs * object_pixels, axis=1) / area_x) - m / 2.
-    center_of_grav_y = np.average(np.sum(ys * object_pixels, axis=0) / area_y) - n / 2.
+    center_of_grav_x = np.average(np.sum(xs * object_pixels, axis=1) / area_x) - n / 2.
+    center_of_grav_y = np.average(np.sum(ys * object_pixels, axis=0) / area_y) - m / 2.
     return center_of_grav_x, center_of_grav_y
 
 
