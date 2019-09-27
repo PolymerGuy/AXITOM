@@ -4,7 +4,6 @@ import os
 from imageio import imread
 
 
-
 def find_center_of_gravity_in_radiogram(radiogram, background_internsity=0.9):
     """ Find axis of rotation in the radiogram.
         This is done by binarization of the image into object and background
@@ -41,7 +40,7 @@ def find_center_of_gravity_in_radiogram(radiogram, background_internsity=0.9):
     object_pixels = binary_radiogram[non_zero_columns, :][:, non_zero_rows]
     area_x = area_x[non_zero_columns]
     area_y = area_y[non_zero_rows]
-    xs, ys = np.meshgrid(non_zero_rows,non_zero_columns)
+    xs, ys = np.meshgrid(non_zero_rows, non_zero_columns)
 
     # Determine center of gravity
     center_of_grav_x = np.average(np.sum(xs * object_pixels, axis=1) / area_x) - n / 2.
@@ -81,8 +80,6 @@ def object_center_of_rotation(radiogram, background_internsity=0.9, method="cent
         center_x, center_y = find_center_of_gravity_in_radiogram(radiogram, background_internsity)
     else:
         raise ValueError("Invalid method")
-
-
 
     return center_x, center_y
 

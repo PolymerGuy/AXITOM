@@ -18,13 +18,7 @@ The tomogram is then compared to the body that was forward projected.
 
 
 def main():
-    config = axitom.config_from_xtekct(join(path_to_data, "radiogram.xtekct"))
-    config.n_voxels_x = 500
-    config.n_voxels_y = 500
-    config.n_voxels_z = 500
-    config.n_pixels_u = 500
-    config.n_pixels_v = 500
-    config.update()
+    config = axitom.config_from_xtekct(join(path_to_data, "sim_barrel.xtekct"))
 
     radiograms = np.load(join(path_to_data, "proj_barrel.npy"))
 
