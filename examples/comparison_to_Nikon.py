@@ -33,7 +33,7 @@ def reconstruct_tomogram():
 
     projection = median_filter(projection, size=41)
 
-    _, center_offset = axitom.object_center_of_rotation(projection, config, background_internsity=0.9)
+    _, center_offset = axitom.object_center_of_rotation(projection, background_internsity=0.9)
     config = config.with_param(center_of_rot=center_offset)
 
     tomogram = axitom.fdk(projection, config)

@@ -49,7 +49,7 @@ def find_center_of_gravity_in_radiogram(radiogram, background_internsity=0.9):
     return center_of_grav_x, center_of_grav_y
 
 
-def object_center_of_rotation(radiogram, param, background_internsity=0.9, method="center_of_gravity"):
+def object_center_of_rotation(radiogram, background_internsity=0.9, method="center_of_gravity"):
     """ Find the axis of rotation of the object pictures in the radiogram
         This is done by determining the center of rotation of the radiogram and scaling the coordinates
         to object coordinates
