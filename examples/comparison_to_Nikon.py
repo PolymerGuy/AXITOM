@@ -30,21 +30,13 @@ def reconstruct_tomogram():
     config = axitom.config_from_xtekct(join(path_to_data, "radiogram.xtekct"))
 
     radiogram = axitom.read_image(join(path_to_data, "radiogram.tif"), flat_corrected=True)
-    # Remove some edges that are in field of view
-    # radiogram[:250, :] = 0.95
-    # radiogram[1800:, :] = 0.95
-
-    radiogram = radiogram[250:1750,:]
-
 
     radiogram = median_filter(radiogram, size=41)
 
-    config = config.with_param(n_pixels_u = 1500,detector_size_u = config.detector_size_u * (1500.0/2000.))
+#    config = config.with_param(n_pixels_u=1500, detector_size_u=config.detector_size_u * (1500.0 / 2000.))
 
     _, center_offset = axitom.object_center_of_rotation(radiogram, config, background_internsity=0.9)
-    config = config.with_param(center_of_rot = center_offset)
-    #config.center_of_rot_u = center_offset
-
+    config = config.with_param(center_of_rot=center_offset)
 
     tomogram = axitom.fdk(radiogram, config)
 
