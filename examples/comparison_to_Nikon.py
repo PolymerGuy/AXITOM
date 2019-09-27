@@ -20,8 +20,8 @@ For easier comparison, a small normalization routine is used on the resulting to
 
 
 def normalize_grey_scales(image):
-    reference_grey_scale = np.average(image[0:250, 0:250])
-    background_grey_scale = np.average(image[870-250:1020-250, 280:375])
+    reference_grey_scale = np.average(image[250:500, 0:250])
+    background_grey_scale = np.average(image[900:1100, 280:375])
 
     return (image - background_grey_scale) / (reference_grey_scale - background_grey_scale)
 
