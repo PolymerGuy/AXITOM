@@ -37,7 +37,7 @@ def reconstruct_tomogram():
     radiogram = radiogram[250:1750,:]
 
 
-    radiogram = median_filter(radiogram, size=21)
+    radiogram = median_filter(radiogram, size=41)
 
     config.n_pixels_u = 1500
     config.detector_size_u = config.detector_size_u * (1500.0/2000.)
