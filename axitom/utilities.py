@@ -82,9 +82,9 @@ def object_center_of_rotation(radiogram, param, background_internsity=0.9, metho
     else:
         raise ValueError("Invalid method")
 
-    scale = (param.source_to_object_dist / param.source_to_detector_dist) * param.pixel_size_u
 
-    return scale * center_x, scale * center_y
+
+    return center_x, center_y
 
 
 def rotate_coordinates(xs_array, ys_array, angle_rad):

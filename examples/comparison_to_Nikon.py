@@ -39,19 +39,12 @@ def reconstruct_tomogram():
 
     radiogram = median_filter(radiogram, size=41)
 
-    config.n_pixels_u = 1500
-    config.detector_size_u = config.detector_size_u * (1500.0/2000.)
-    # config.n_voxels_x = 1500
-    # config.n_voxels_y = 1500
-    # config.object_size_x = config.object_size_x * (1500./2000.)
-    # config.object_size_y = config.object_size_y * (1500./2000.)
-    config.update()
-
+    config = config.with_param(n_pixels_u = 1500,detector_size_u = config.detector_size_u * (1500.0/2000.))
 
     _, center_offset = axitom.object_center_of_rotation(radiogram, config, background_internsity=0.9)
-    config.center_of_rot_y = center_offset
+    config = config.with_param(center_of_rot = center_offset)
+    #config.center_of_rot_u = center_offset
 
-    config.update()
 
     tomogram = axitom.fdk(radiogram, config)
 
