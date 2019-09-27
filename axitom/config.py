@@ -6,8 +6,33 @@ class Config(object):
 
     def __init__(self, n_pixels_u, n_pixels_v, detector_size_u, detector_size_v, source_to_detector_dist,
                  source_to_object_dist, angular_inc=1, center_of_rot=0, **kwargs):
-        """ Configuration object which contains all settings neccessary for the forward projection
+        """ Configuration object which contains all settings necessary for the forward projection
             and tomographic reconstruction using the axitom algorithm.
+
+        Parameters
+        ----------
+        n_pixels_u : int
+            Number of pixels in the u direction of the sensor
+        n_pixels_v : int
+            Number of pixels in the u direction of the sensor
+        detector_size_u : float
+            Detector size in the u direction
+        detector_size_v : int
+            Detector size in the u direction
+        source_to_detector_dist : float
+            Distance between source and detector
+        source_to_object_dist : int
+            Distance between source and object
+        angular_inc : float
+            Angular increment in degrees used in the reconstruction
+        center_of_rot : float
+            Position of the rotation axis in pixels. 0 corresponds to the centre of the image
+        Returns
+        -------
+        ndarray
+            The filter kernel
+
+        NOTE: Any non valid arguments are neglected without warning
 
         """
 
@@ -20,7 +45,9 @@ class Config(object):
         self.source_to_object_dist = source_to_object_dist
         self.angular_inc = angular_inc
 
-        self.center_of_rot_u = center_of_rot  # Should be in pixels!
+        self.center_of_rot_u = center_of_rot
+
+        # All values below are calculated
 
         self.projection_angs = np.arange(0., 360, self.angular_inc)
         self.n_projections = len(self.projection_angs)
