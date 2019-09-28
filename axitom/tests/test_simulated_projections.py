@@ -12,18 +12,13 @@ class Test_SimulatedProjections(TestCase):
         dir_path = os.path.dirname(os.path.realpath(__file__))
 
         # Set the same settings as used in the forward projection
-        param = axitom.config_from_xtekct(dir_path + "/example_data/settings.xtekct")
-        param.n_voxels_x = 500
-        param.n_voxels_y = 500
-        param.n_voxels_z = 500
-        param.n_pixels_u = 500
-        param.n_pixels_v = 500
-        param.update()
+        config = axitom.config_from_xtekct(dir_path + "/example_data/settings.xtekct")
+        config = config.with_param(n_pixels_u=500, n_pixels_v=500)
 
         proj = np.load(dir_path + path_to_projections)
         proj = np.exp(-proj)
 
-        reconstruction = axitom.fdk(proj, param)
+        reconstruction = axitom.fdk(proj, config)
 
         # Note that the reconstruction give the radial slice only
         deviation_field = np.abs(correct_body[:250, 250, :] - reconstruction)

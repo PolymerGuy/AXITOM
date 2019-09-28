@@ -1,9 +1,14 @@
 import numpy as np
 
+""" Phantoms
+
+This module contains the phantoms that can be used for forward projection and virtual experiments
+
+"""
 
 def barrel(domain_size=128, outer_rad_fraction=0.7,center_val=None):
     """ Barrel shaped phantom with a linear density gradient
-    The domain size is cubic with dimension "domain_size" along each size
+    The domain size is cubic with dimension "domain_size" along each axis
 
     Parameters
     ----------

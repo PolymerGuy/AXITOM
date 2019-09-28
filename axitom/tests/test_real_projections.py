@@ -6,20 +6,14 @@ import os
 
 
 def run_reconstruction():
-    dir_path = os.path.dirname(os.path.realpath(__file__))
-    config = axitom.config_from_xtekct(dir_path + "/example_data/settings.xtekct")
-    radiogram = axitom.read_image(dir_path + "/example_data/radiogram.tif", flat_corrected=True)
+    data_path = os.path.dirname(os.path.realpath(__file__))
+    config = axitom.config_from_xtekct(data_path + "/example_data/radiogram.xtekct")
+    radiogram = axitom.read_image(data_path + "/example_data/radiogram.tif", flat_corrected=True)
 
-    # Remove some edges that are in field of view
-    radiogram[:250, :] = 0.95
-    radiogram[1800:, :] = 0.95
+    radiogram = median_filter(radiogram, size=21)
 
-    radiogram = median_filter(radiogram, size=20)
-
-    _, center_offset = axitom.object_center_of_rotation(radiogram, config, background_internsity=0.9)
-    config.center_of_rot_y = center_offset
-
-    config.update()
+    _, center_offset = axitom.find_center_of_rotation(radiogram, background_internsity=0.9)
+    config = config.with_param(center_of_rot=center_offset, n_pixels_u=1500)
 
     reconstruction = axitom.fdk(radiogram, config)
 
@@ -27,10 +21,10 @@ def run_reconstruction():
 
 
 def normalize_grey_scales(image):
-    undeformed_grey_scale = np.average(image[250:500, 0:250])
-    background_grey_scale = np.average(image[870:1020, 280:375])
+    reference_grey_scale = np.average(image[250:500, 0:250])
+    background_grey_scale = np.average(image[900:1100, 280:375])
 
-    return (image - background_grey_scale) / (undeformed_grey_scale - background_grey_scale)
+    return (image - background_grey_scale) / (reference_grey_scale - background_grey_scale)
 
 
 class Test_CompareToExternalSoftware(TestCase):

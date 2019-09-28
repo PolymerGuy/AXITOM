@@ -127,41 +127,35 @@ First, we need to import the tools
     import axitom as tom
     from scipy.ndimage.filters import median_filter
 
-Assuming that the example data from the repo is located in the example_data folder, we can make a config object
+The example data can be downloaded from the AXITOM/tests/example_data/ folder. The dataset was collected during tensile testing of a polymer specimen.
+Assuming that the example data from the repo is located in root folder, we can make a config object
 from the .xtekct file
 
-    config = tom.config_from_xtekct("./example_data/R02_01.xtekct")
+    config = tom.config_from_xtekct("radiogram.xtekct")
 
-We now import the radiogram
+We now import the projection
 
-     radiogram = tom.read_image(r"./example_data/R02_01.tif", flat_corrected=True)
+     projection = tom.read_image(r"radiogram.tif", flat_corrected=True)
 
-and we remove the top and bottom of the image. This is necessary in this example, as the fixtures will interfere with
-the algorithm used to find the centre of rotation
-
-     radiogram[:250, :] = 0.95
-     radiogram[1800:, :] = 0.95
-
-As we will use a single radiogram only in this reconstruction, we will reduce the noise content of the radiogram by
+As we will use a single projection only in this reconstruction, we will reduce the noise content of the projection by
 employing a median filter. Using such a filter works fine since the density gradients within the specimen are relatively small.
 You may here choose any filter of your liking.
 
 
-     radiogram = median_filter(radiogram, size=20)
+     projection = median_filter(projection, size=21)
 
 Now, the axis of rotation has to be determined. The axis of rotation is found by first binarizing of the image into object and background,
 and subsequently determining the centre of gravity of the object
 
-     _, center_offset = tom.object_center_of_rotation(radiogram, config, background_internsity=0.9)
+     _, center_offset = tom.object_center_of_rotation(projection, background_internsity=0.9)
 
 The config object has to be updated with the correct values
 
-     config.center_of_rot_y = center_offset
-     config.update()
+     config = config.with_param(center_of_rot=center_offset)
 
 We are now ready to initiate the reconstruction
 
-     tomo = tom.fdk(radiogram, config)
+     tomo = tom.fdk(projection, config)
 
 
 The results can then be visualized

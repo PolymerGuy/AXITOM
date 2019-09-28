@@ -3,18 +3,51 @@ import natsort
 import os
 from imageio import imread
 
-import matplotlib.pyplot as plt
+""" Utilites
+
+This module contains various utility functions that does not have any other obvious home 
+
+"""
 
 
-def find_center_of_gravity_in_radiogram(radiogram, background_internsity=0.9):
-    """ Find axis of rotation in the radiogram.
+def _parse_xtekct_file(file_path):
+    """Parse a X-tec-CT file into a dictionary
+    Only = is considered valid separators
+
+        Parameters
+        ----------
+        file_path : string
+            The path to the file to be parsed
+
+        Returns
+        -------
+        string
+            A dictionary containing all key-value pairs found in the X-tec-CT input file
+        """
+    myvars = {}
+    with open(file_path) as myfile:
+        for line in myfile:
+            name, var = line.partition("=")[::2]
+            try:
+                if "." in var:
+                    myvars[name.strip()] = float(var)
+                else:
+                    myvars[name.strip()] = int(var)
+            except ValueError:
+                myvars[name.strip()] = var
+
+    return myvars
+
+
+def _find_center_of_gravity_in_projection(projection, background_internsity=0.9):
+    """ Find axis of rotation in the projection.
         This is done by binarization of the image into object and background
         and determining the center of gravity of the object.
 
         Parameters
         ----------
-        radiogram : ndarray
-            The radiogram, normalized between 0 and 1
+        projection : ndarray
+            The projection, normalized between 0 and 1
         background_internsity : float
             The background intensity threshold
 
@@ -27,40 +60,36 @@ def find_center_of_gravity_in_radiogram(radiogram, background_internsity=0.9):
             The center of gravity in the v-direction
 
         """
-    n, m = np.shape(radiogram)
+    m, n = np.shape(projection)
 
-    binary_radiogram = np.zeros_like(radiogram, dtype=np.float)
-    binary_radiogram[radiogram < background_internsity] = 1.
+    binary_proj = np.zeros_like(projection, dtype=np.float)
+    binary_proj[projection < background_internsity] = 1.
 
-    area_x = np.sum(binary_radiogram, axis=1)
-    area_y = np.sum(binary_radiogram, axis=0)
+    area_x = np.sum(binary_proj, axis=1)
+    area_y = np.sum(binary_proj, axis=0)
 
     non_zero_rows = np.arange(n)[area_y != 0.]
     non_zero_columns = np.arange(m)[area_x != 0.]
 
     # Now removing all columns that does not intersect the object
-    object_pixels = binary_radiogram[non_zero_columns, :][:, non_zero_rows]
+    object_pixels = binary_proj[non_zero_columns, :][:, non_zero_rows]
     area_x = area_x[non_zero_columns]
     area_y = area_y[non_zero_rows]
-    xs, ys = np.meshgrid(non_zero_rows,non_zero_columns)
+    xs, ys = np.meshgrid(non_zero_rows, non_zero_columns)
 
     # Determine center of gravity
-    center_of_grav_x = np.average(np.sum(xs * object_pixels, axis=1) / area_x) - m / 2.
-    center_of_grav_y = np.average(np.sum(ys * object_pixels, axis=0) / area_y) - n / 2.
+    center_of_grav_x = np.average(np.sum(xs * object_pixels, axis=1) / area_x) - n / 2.
+    center_of_grav_y = np.average(np.sum(ys * object_pixels, axis=0) / area_y) - m / 2.
     return center_of_grav_x, center_of_grav_y
 
 
-def object_center_of_rotation(radiogram, param, background_internsity=0.9, method="center_of_gravity"):
-    """ Find the axis of rotation of the object pictures in the radiogram
-        This is done by determining the center of rotation of the radiogram and scaling the coordinates
-        to object coordinates
+def find_center_of_rotation(projection, background_internsity=0.9, method="center_of_gravity"):
+    """ Find the axis of rotation of the object in the projection
 
         Parameters
         ----------
-        radiogram : ndarray
-            The radiogram, normalized between 0 and 1
-        param : object
-            The parameters used for the tomographic reconstruction
+        projection : ndarray
+            The projection, normalized between 0 and 1
         background_internsity : float
             The background intensity threshold
         method : string
@@ -70,22 +99,20 @@ def object_center_of_rotation(radiogram, param, background_internsity=0.9, metho
         Returns
         -------
         float64
-            The center of gravity in the x-direction
+            The center of gravity in the v-direction
         float64
-            The center of gravity in the y-direction
+            The center of gravity in the u-direction
 
         """
-    if radiogram.ndim != 2:
-        raise ValueError("Invalid radiogram shape. It has to be a 2d numpy array")
+    if projection.ndim != 2:
+        raise ValueError("Invalid projection shape. It has to be a 2d numpy array")
 
     if method == "center_of_gravity":
-        center_x, center_y = find_center_of_gravity_in_radiogram(radiogram, background_internsity)
+        center_v, center_u = _find_center_of_gravity_in_projection(projection, background_internsity)
     else:
         raise ValueError("Invalid method")
 
-    scale = (param.source_to_object_dist / param.source_to_detector_dist) * param.pixel_size_u
-
-    return scale * center_x, scale * center_y
+    return center_v, center_u
 
 
 def rotate_coordinates(xs_array, ys_array, angle_rad):
@@ -132,15 +159,15 @@ def list_files_in_folder(path, file_type=".tif"):
     return natsort.natsorted([file for file in os.listdir(path) if file.endswith(file_type)])
 
 
-def shading_correction(radiograms, flats, darks):
-    """ Perform shading correction on a a list of radiograms based on a list of flat images and list of dark images.
+def shading_correction(projections, flats, darks):
+    """ Perform shading correction on a a list of projections based on a list of flat images and list of dark images.
 
-        The correction is: corrected = (radiogram-dark)/(flat-dark)
+        The correction is: corrected = (projections-dark)/(flat-dark)
 
         Parameters
         ----------
-        radiograms : list
-            A list of radiograms that will be corrected
+        projections : list
+            A list of projections that will be corrected
         flats : list
             A list of flat images
         darks : list
@@ -150,7 +177,7 @@ def shading_correction(radiograms, flats, darks):
         Returns
         -------
         list
-            A list of corrected radiograms
+            A list of corrected projections
 
         """
     flat_avg = np.array(flats)
@@ -159,15 +186,15 @@ def shading_correction(radiograms, flats, darks):
     dark_avg = np.array(darks)
     dark_avg = np.average(dark_avg, axis=0)
 
-    corrected_radiograms = []
-    for radiogram in radiograms:
-        corrected_radiograms.append((radiogram - dark_avg) / (flat_avg - dark_avg))
-    return corrected_radiograms
+    corrected_projections = []
+    for projection in projections:
+        corrected_projections.append((projection - dark_avg) / (flat_avg - dark_avg))
+    return corrected_projections
 
 
 def read_image(file_path, flat_corrected=False):
     """ Read an image specified by the file_path
-        This function allways returns a float64 single channel image
+        This function always returns a transposed float64 single channel image
 
         Parameters
         ----------
@@ -185,4 +212,4 @@ def read_image(file_path, flat_corrected=False):
         image = np.average(image, axis=2)
     if flat_corrected:
         image = image / image.max()
-    return image.transpose()
+    return np.array(image).transpose()
