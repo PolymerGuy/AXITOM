@@ -148,7 +148,7 @@ def fdk(projection, config):
         raise IOError("Only instances of Param are valid settings")
 
     if type(projection) != np.ndarray:
-        raise IOError("The projections have to be in a numpy ndarray")
+        raise UserWarning("The projections have to be in a numpy ndarray")
 
     projection = -np.log(projection)
 

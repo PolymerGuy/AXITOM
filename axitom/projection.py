@@ -33,10 +33,10 @@ def _forward_project(volume, config, angle_deg):
     # Now integrate along the rays
     uu, vv = np.meshgrid(config.detector_us, config.detector_vs)
 
-    Ratios = (config.object_ys + config.source_to_object_dist) / config.source_to_detector_dist
+    ratios = (config.object_ys + config.source_to_object_dist) / config.source_to_detector_dist
 
-    pus = (uu[:, np.newaxis, :] * Ratios[np.newaxis, :, np.newaxis] - config.object_xs[0]) / config.voxel_size_x
-    pvs = (vv[:, np.newaxis, :] * Ratios[np.newaxis, :, np.newaxis] - config.object_zs[0]) / config.voxel_size_z
+    pus = (uu[:, np.newaxis, :] * ratios[np.newaxis, :, np.newaxis] - config.object_xs[0]) / config.voxel_size_x
+    pvs = (vv[:, np.newaxis, :] * ratios[np.newaxis, :, np.newaxis] - config.object_zs[0]) / config.voxel_size_z
     pys = np.arange(pus.shape[1])[np.newaxis, :, np.newaxis] * np.ones_like(pvs)
 
     proj2d = np.sum(map_coordinates(data3d[:, :, :], [pvs[:, :, :],
