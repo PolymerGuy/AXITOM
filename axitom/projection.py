@@ -77,8 +77,8 @@ def axis_sym_projection(volume, config, angles=None):
         modified_param.projection_angs = np.linspace(0., 45., config.n_voxels_x / 2)
         modified_param.nProj = len(modified_param.projection_angs)
 
-    radiogram = np.zeros((config.n_pixels_u, config.n_pixels_v), dtype=np.float)
+    projection = np.zeros((config.n_pixels_u, config.n_pixels_v), dtype=np.float)
     for i , angle_deg in  enumerate(modified_param.projection_angs):
         print("Projecting fram nr: ", i)
-        radiogram += _forward_project(volume, modified_param, angle_deg)
-    return radiogram / np.float(modified_param.nProj)
+        projection += _forward_project(volume, modified_param, angle_deg)
+    return projection / np.float(modified_param.nProj)
