@@ -20,7 +20,7 @@ def _forward_project(volume, config, angle_deg):
         config : obj
             The settings object
         angle_deg : float
-            The angle in degree that the volume will be rotated before the projection is calculated
+            The angle in degrees that the volume will be rotated before the projection is calculated
 
         Returns
         -------
@@ -61,7 +61,7 @@ def axis_sym_projection(volume, config, angles=None):
         config : obj
             The settings object
         angles : list
-            The angles which will be used for the forward projection
+            The angles in degrees which will be used for the forward projection
 
         Returns
         -------
