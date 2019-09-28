@@ -10,7 +10,10 @@
 
 <!-- PROJECT LOGO -->
 <br />
+<p align="center">
 <img src="./docs/logo.png" alt="Logo" width="500" height="500">
+</p>
+
 
 <h3 align="center">AXITOM</h3>
 
