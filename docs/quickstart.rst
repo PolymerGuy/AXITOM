@@ -12,25 +12,26 @@ First, we need to import the tools::
     import axitom as tom
     from scipy.ndimage.filters import median_filter
 
-The example data can be downloaded from the AXITOM/tests/example_data/ folder. Assuming that the example data from the repo is located in root folder, we can make a config object
-from the .xtekct file
+The example data can be downloaded from the AXITOM/tests/example_data/ folder. The dataset was collected during tensile testing of a polymer specimen.
+Assuming that the example data from the repo is located in root folder, we can make a config object
+from the .xtekct file::
 
     config = tom.config_from_xtekct("radiogram.xtekct")
 
-We now import the radiogram::
+We now import the projection::
 
-     radiogram = tom.read_image(r"radiogram.tif", flat_corrected=True)
+     projection = tom.read_image(r"radiogram.tif", flat_corrected=True)
 
-As we will use a single radiogram only in this reconstruction, we will reduce the noise content of the radiogram by
+As we will use a single projection only in this reconstruction, we will reduce the noise content of the projection by
 employing a median filter. This works fine since the density gradients within the specimen are relatively small.
 You may here choose any filter of your liking::
 
-     radiogram = median_filter(radiogram, size=21)
+     projection = median_filter(projection, size=21)
 
 Now, the axis of rotation has to be determined. This is done be binarization of the image into object and background
 and determining the center of gravity of the object::
 
-     _, center_offset = tom.object_center_of_rotation(radiogram, background_internsity=0.9)
+     _, center_offset = tom.object_center_of_rotation(projection, background_internsity=0.9)
 
 The config object has to be updated with the correct values::
 
@@ -38,7 +39,7 @@ The config object has to be updated with the correct values::
 
 We are now ready to initiate the reconstruction::
 
-     tomo = tom.fdk(radiogram, config)
+     tomo = tom.fdk(projection, config)
 
 
 The results can then be visualized::
