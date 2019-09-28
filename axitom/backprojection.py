@@ -60,7 +60,7 @@ def map_object_to_detector_coords(object_xs, object_ys, object_zs, settings):
     return detector_cords_a, detector_cords_b
 
 
-def fdk_axisym(projection, settings):
+def _fdk_axisym(projection, settings):
 
     proj_width, proj_height = projection.shape
     proj_center = int(proj_width / 2)
@@ -142,5 +142,5 @@ def fdk(projection, config):
         raise IOError("The projection has to be a 2D array")
 
 
-    img = fdk_axisym(projection_filtered, config)
+    img = _fdk_axisym(projection_filtered, config)
     return img
