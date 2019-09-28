@@ -1,5 +1,14 @@
 import numpy as np
-from .parse import parse_xtekct_file
+from .utilities import parse_xtekct_file
+
+""" Config object and factory
+
+This module contains the Config class which has all the settings that are used during the reconstruction of the tomogram.
+A simple factory for creating Config objects from Nikon XT225ST input files is also provided.
+
+"""
+
+
 
 
 class Config(object):
@@ -26,7 +35,7 @@ class Config(object):
         angular_inc : float
             Angular increment in degrees used in the reconstruction
         center_of_rot : float
-            Position of the rotation axis in pixels. 0 corresponds to the centre of the image
+            Position of the rotation axis in pixels. 0 corresponds to the center of the image
         Returns
         -------
         ndarray

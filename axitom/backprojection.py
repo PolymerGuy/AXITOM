@@ -4,6 +4,12 @@ from .utilities import rotate_coordinates
 from .filtering import ramp_filter_and_weight
 from .config import Config
 
+""" Back projection function
+
+This module contains the Feldkamp David Kress filtered back projection routines. 
+
+"""
+
 
 def map_object_to_detector_coords(object_xs, object_ys, object_zs, settings):
     """Map the object coordinates to detector pixel coordinates accounting for cone beam divergence.
@@ -89,7 +95,7 @@ def fdk_axisym(projection, settings):
     return recon_slice / np.float(settings.n_projections)
 
 
-def fdk(projection, param):
+def fdk(projection, config):
     """Filtered back projection algorithm as proposed by Feldkamp David Kress, adapted for axisymmetry.
 
         This implementation has been adapted for axis-symmetry by using a single projection only and
@@ -107,7 +113,7 @@ def fdk(projection, param):
         ----------
         projection : np.ndarray
             The projection used in the reconstruction
-        settings : obj
+        config : obj
             The settings object containing all neccessary settings for the reconstruction
 
 
@@ -120,7 +126,7 @@ def fdk(projection, param):
 
         """
 
-    if not isinstance(param, Config):
+    if not isinstance(config, Config):
         raise IOError("Only instances of Param are valid settings")
 
     if type(projection) != np.ndarray:
@@ -130,11 +136,11 @@ def fdk(projection, param):
     projection = -np.log(projection)
 
     if projection.ndim == 2:
-        projection_filtered = ramp_filter_and_weight(projection[:, :, np.newaxis], param)
+        projection_filtered = ramp_filter_and_weight(projection, config)
 
     else:
         raise IOError("The projection has to be a 2D array")
 
 
-    img = fdk_axisym(projection_filtered[:, :, 0], param)
+    img = fdk_axisym(projection_filtered, config)
     return img

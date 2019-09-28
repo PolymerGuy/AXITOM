@@ -22,8 +22,8 @@ def ramp_kernel_real(cutoff, length):
     return cutoff ** 2.0 * (2.0 * np.sinc(2 * pos * cutoff) - np.sinc(pos * cutoff) ** 2.0)
 
 
-def add_weights(projections, settings):
-    """Add weights to the projections according to the ray length traveled through a voxel
+def add_weights(projection, settings):
+    """Add weights to the projection according to the ray length traveled through a voxel
 
         Parameters
         ----------
@@ -45,11 +45,11 @@ def add_weights(projections, settings):
         settings.source_to_detector_dist ** 2. + uu ** 2. + vv ** 2.)
 
 
-    return projections * weights[:, :, np.newaxis]
+    return projection * weights
 
 
-def ramp_filter_and_weight(projections, settings):
-    """Add weights to the projections and apply a ramp-high-pass filter set to 0.5*Nyquist_frequency
+def ramp_filter_and_weight(projection, settings):
+    """Add weights to the projection and apply a ramp-high-pass filter set to 0.5*Nyquist_frequency
 
         Parameters
         ----------
@@ -64,18 +64,17 @@ def ramp_filter_and_weight(projections, settings):
             The projections weighted by the ray length and filtered by ramp filter
 
         """
-    projections_weighted = add_weights(projections, settings)
+    projections_weighted = add_weights(projection, settings)
 
-    n_pixels_u, _, _ = np.shape(projections_weighted)
+    n_pixels_u, _ = np.shape(projections_weighted)
     ramp_kernel = ramp_kernel_real(0.5, n_pixels_u)
 
     projections_filtered = np.zeros_like(projections_weighted)
 
-    _, n_lines, n_projections = projections_weighted.shape
+    _, n_lines = projections_weighted.shape
 
-    for i in range(n_projections):
-        for j in range(n_lines):
-            projections_filtered[:, j, i] = sig.fftconvolve(projections_weighted[:, j, i], ramp_kernel, mode='same')
+    for j in range(n_lines):
+        projections_filtered[:, j] = sig.fftconvolve(projections_weighted[:, j], ramp_kernel, mode='same')
 
     scale_factor = 1. / settings.pixel_size_u * np.pi * (
             settings.source_to_detector_dist / settings.source_to_object_dist)
