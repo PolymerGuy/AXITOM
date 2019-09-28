@@ -12,36 +12,29 @@ First, we need to import the tools::
     import axitom as tom
     from scipy.ndimage.filters import median_filter
 
-Assuming that the example data from the repo is located in the example_data folder, we can make a config object
-from the .xtekct file::
+The example data can be downloaded from the AXITOM/tests/example_data/ folder. Assuming that the example data from the repo is located in root folder, we can make a config object
+from the .xtekct file
 
-    config = tom.config_from_xtekct("./example_data/R02_01.xtekct")
+    config = tom.config_from_xtekct("radiogram.xtekct")
 
 We now import the radiogram::
 
-     radiogram = tom.read_image(r"./example_data/R02_01.tif", flat_corrected=True)
-
-And we remove the top and bottom of the image. This is necessary in this example, as the fixtures will interfere with
-the algorithm used to find the center of rotation::
-
-     radiogram[:250, :] = 0.95
-     radiogram[1800:, :] = 0.95
+     radiogram = tom.read_image(r"radiogram.tif", flat_corrected=True)
 
 As we will use a single radiogram only in this reconstruction, we will reduce the noise content of the radiogram by
 employing a median filter. This works fine since the density gradients within the specimen are relatively small.
 You may here choose any filter of your liking::
 
-     radiogram = median_filter(radiogram, size=20)
+     radiogram = median_filter(radiogram, size=21)
 
 Now, the axis of rotation has to be determined. This is done be binarization of the image into object and background
 and determining the center of gravity of the object::
 
-     _, center_offset = tom.object_center_of_rotation(radiogram, config, background_internsity=0.9)
+     _, center_offset = tom.object_center_of_rotation(radiogram, background_internsity=0.9)
 
 The config object has to be updated with the correct values::
 
-     config.center_of_rot_y = center_offset
-     config.update()
+     config = config.with_param(center_of_rot=center_offset)
 
 We are now ready to initiate the reconstruction::
 
