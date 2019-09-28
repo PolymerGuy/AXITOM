@@ -17,11 +17,11 @@ class Config(object):
             Number of pixels in the u direction of the sensor
         detector_size_u : float
             Detector size in the u direction
-        detector_size_v : int
+        detector_size_v : float
             Detector size in the u direction
         source_to_detector_dist : float
             Distance between source and detector
-        source_to_object_dist : int
+        source_to_object_dist : float
             Distance between source and object
         angular_inc : float
             Angular increment in degrees used in the reconstruction
@@ -66,12 +66,9 @@ class Config(object):
         self.center_of_rot_y = self.center_of_rot_u * (
                 self.source_to_object_dist / self.source_to_detector_dist) * self.pixel_size_u
 
-        self.object_ys = (np.linspace(0, self.n_pixels_u, self.n_pixels_u,
-                                      dtype=np.float64) - self.n_pixels_u / 2.) * self.voxel_size_y
-        self.object_xs = (np.linspace(0, self.n_pixels_u, self.n_pixels_u,
-                                      dtype=np.float64) - self.n_pixels_u / 2.) * self.voxel_size_x
-        self.object_zs = (np.linspace(0, self.n_pixels_v, self.n_pixels_v,
-                                      dtype=np.float64) - self.n_pixels_v / 2.) * self.voxel_size_z
+        self.object_ys = (np.arange(self.n_pixels_u, dtype=np.float64) - self.n_pixels_u / 2.) * self.voxel_size_y
+        self.object_xs = (np.arange(self.n_pixels_u, dtype=np.float64) - self.n_pixels_u / 2.) * self.voxel_size_x
+        self.object_zs = (np.arange(self.n_pixels_v, dtype=np.float64) - self.n_pixels_v / 2.) * self.voxel_size_z
 
         self.detector_us = (np.arange(self.n_pixels_u,
                                       dtype=np.float64) - self.n_pixels_u / 2.) * self.pixel_size_u
