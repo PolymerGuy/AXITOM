@@ -10,7 +10,7 @@ This module contains various utility functions that does not have any other obvi
 """
 
 
-def parse_xtekct_file(file_path):
+def _parse_xtekct_file(file_path):
     """Parse a X-tec-CT file into a dictionary
     Only = is considered valid separators
 
@@ -39,15 +39,15 @@ def parse_xtekct_file(file_path):
     return myvars
 
 
-def find_center_of_gravity_in_radiogram(radiogram, background_internsity=0.9):
-    """ Find axis of rotation in the radiogram.
+def _find_center_of_gravity_in_projection(projection, background_internsity=0.9):
+    """ Find axis of rotation in the projection.
         This is done by binarization of the image into object and background
         and determining the center of gravity of the object.
 
         Parameters
         ----------
-        radiogram : ndarray
-            The radiogram, normalized between 0 and 1
+        projection : ndarray
+            The projection, normalized between 0 and 1
         background_internsity : float
             The background intensity threshold
 
@@ -60,10 +60,10 @@ def find_center_of_gravity_in_radiogram(radiogram, background_internsity=0.9):
             The center of gravity in the v-direction
 
         """
-    m, n = np.shape(radiogram)
+    m, n = np.shape(projection)
 
-    binary_radiogram = np.zeros_like(radiogram, dtype=np.float)
-    binary_radiogram[radiogram < background_internsity] = 1.
+    binary_radiogram = np.zeros_like(projection, dtype=np.float)
+    binary_radiogram[projection < background_internsity] = 1.
 
     area_x = np.sum(binary_radiogram, axis=1)
     area_y = np.sum(binary_radiogram, axis=0)
@@ -83,17 +83,13 @@ def find_center_of_gravity_in_radiogram(radiogram, background_internsity=0.9):
     return center_of_grav_x, center_of_grav_y
 
 
-def object_center_of_rotation(radiogram, background_internsity=0.9, method="center_of_gravity"):
-    """ Find the axis of rotation of the object pictures in the radiogram
-        This is done by determining the center of rotation of the radiogram and scaling the coordinates
-        to object coordinates
+def find_center_of_rotation(projection, background_internsity=0.9, method="center_of_gravity"):
+    """ Find the axis of rotation of the object in the projection
 
         Parameters
         ----------
-        radiogram : ndarray
+        projection : ndarray
             The radiogram, normalized between 0 and 1
-        param : object
-            The parameters used for the tomographic reconstruction
         background_internsity : float
             The background intensity threshold
         method : string
@@ -103,20 +99,20 @@ def object_center_of_rotation(radiogram, background_internsity=0.9, method="cent
         Returns
         -------
         float64
-            The center of gravity in the x-direction
+            The center of gravity in the v-direction
         float64
-            The center of gravity in the y-direction
+            The center of gravity in the u-direction
 
         """
-    if radiogram.ndim != 2:
+    if projection.ndim != 2:
         raise ValueError("Invalid radiogram shape. It has to be a 2d numpy array")
 
     if method == "center_of_gravity":
-        center_x, center_y = find_center_of_gravity_in_radiogram(radiogram, background_internsity)
+        center_v, center_u = _find_center_of_gravity_in_projection(projection, background_internsity)
     else:
         raise ValueError("Invalid method")
 
-    return center_x, center_y
+    return center_v, center_u
 
 
 def rotate_coordinates(xs_array, ys_array, angle_rad):
@@ -198,7 +194,7 @@ def shading_correction(radiograms, flats, darks):
 
 def read_image(file_path, flat_corrected=False):
     """ Read an image specified by the file_path
-        This function allways returns a float64 single channel image
+        This function always returns a transposed float64 single channel image
 
         Parameters
         ----------

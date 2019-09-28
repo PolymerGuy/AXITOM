@@ -12,7 +12,7 @@ def run_reconstruction():
 
     radiogram = median_filter(radiogram, size=21)
 
-    _, center_offset = axitom.object_center_of_rotation(radiogram, background_internsity=0.9)
+    _, center_offset = axitom.find_center_of_rotation(radiogram, background_internsity=0.9)
     config = config.with_param(center_of_rot=center_offset, n_pixels_u=1500)
 
     reconstruction = axitom.fdk(radiogram, config)

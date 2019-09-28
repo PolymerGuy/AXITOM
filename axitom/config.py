@@ -1,5 +1,5 @@
 import numpy as np
-from .utilities import parse_xtekct_file
+from .utilities import _parse_xtekct_file
 
 """ Config object and factory
 
@@ -119,7 +119,7 @@ def config_from_xtekct(file_path):
 
         """
 
-    inputfile = parse_xtekct_file(file_path)
+    inputfile = _parse_xtekct_file(file_path)
 
     try:
 
