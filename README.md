@@ -10,24 +10,16 @@
 
 <!-- PROJECT LOGO -->
 <br />
+<img src="./docs/logo.png" alt="Logo" width="500" height="500">
+
+<h3 align="center">AXITOM</h3>
+
 <p align="center">
-  <a href="https://github.com/othneildrew/Best-README-Template">
-    <img src="./docs/logo.png" alt="Logo" width="500" height="500">
-  </a>
-
-  <h3 align="center">AXITOM</h3>
-
-  <p align="center">
-    Tomographic reconstruction of axisymmetric fields acquired by a cone beam
-    <br />
-    <a href="https://axitom.readthedocs.io/en/latest/"><strong>Explore the docs »</strong></a>
-    <br />
-  </p>
+Tomographic reconstruction of axisymmetric fields acquired by a cone beam
+<br />
+<a href="https://axitom.readthedocs.io/en/latest/"><strong>Explore the docs </strong></a>
+<br />
 </p>
-
-
-
-
 
 <!-- ABOUT THE PROJECT -->
 About The Project

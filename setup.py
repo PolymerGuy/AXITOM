@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="axitom",
-    version="0.1.2",
+    version="0.1.3",
     author="PolymerGuy",
     author_email="sindre.n.olufsen@ntnu.no",
     description="Tools for axis-symmetric cone-beam computed tomography",
