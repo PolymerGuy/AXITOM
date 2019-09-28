@@ -4,7 +4,7 @@ from .utilities import rotate_coordinates
 from .filtering import ramp_filter_and_weight
 from .config import Config
 
-""" Back projection function
+""" Filtered back projection functions
 
 This module contains the Feldkamp David Kress filtered back projection routines. 
 
@@ -60,9 +60,38 @@ def map_object_to_detector_coords(object_xs, object_ys, object_zs, settings):
     return detector_cords_a, detector_cords_b
 
 
-def _fdk_axisym(projection, settings):
+def _fdk_axisym(projection_filtered, settings):
+    """Filtered back projection algorithm as proposed by Feldkamp David Kress, adapted for axisymmetry.
 
-    proj_width, proj_height = projection.shape
+        This implementation has been adapted for axis-symmetry by using a single projection only and
+        by only reconstructing a single R-Z slice.
+
+
+        This algorithm is based on:
+        https://doi.org/10.1364/JOSAA.1.000612
+
+        but follows the notation used by:
+        Turbell, H. (2001). Cone-Beam Reconstruction Using Filtered Backprojectionn. Science And Technology.
+        Retrieved from http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.134.5224&amp;rep=rep1&amp;type=pdf
+
+        Parameters
+        ----------
+        projection_filtered : np.ndarray
+            The ramp filtered projection used in the reconstruction
+        config : obj
+            The settings object containing all necessary settings for the reconstruction
+
+
+        Returns
+        -------
+        ndarray
+            The reconstructed slice
+
+            The reconstructed slice is a R-Z plane of a axis-symmetric tomogram where Z is the symmetry axis.
+
+        """
+
+    proj_width, proj_height = projection_filtered.shape
     proj_center = int(proj_width / 2)
 
     # Allocate an empty array
@@ -88,7 +117,7 @@ def _fdk_axisym(projection, settings):
         # This term is caused by the divergent cone geometry
         ratio = (settings.source_to_object_dist ** 2.) / (settings.source_to_object_dist + x_rotated) ** 2.
 
-        recon_slice = recon_slice + ratio[:, np.newaxis] * map_coordinates(projection,
+        recon_slice = recon_slice + ratio[:, np.newaxis] * map_coordinates(projection_filtered,
                                                                            [detector_cords_a, detector_cords_b],
                                                                            cval=0., order=1)
 
@@ -114,7 +143,7 @@ def fdk(projection, config):
         projection : np.ndarray
             The projection used in the reconstruction
         config : obj
-            The settings object containing all neccessary settings for the reconstruction
+            The settings object containing all necessary settings for the reconstruction
 
 
         Returns

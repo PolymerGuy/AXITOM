@@ -1,7 +1,14 @@
 import scipy.signal as sig
 import numpy as np
 
-def ramp_kernel_real(cutoff, length):
+""" Filter tools
+
+This module contains the ramp filter and the weighting function 
+
+"""
+
+
+def _ramp_kernel_real(cutoff, length):
     """Ramp filter kernel in real space defined by the cut-off frequency and the spatial dimension
 
         Parameters
@@ -22,7 +29,7 @@ def ramp_kernel_real(cutoff, length):
     return cutoff ** 2.0 * (2.0 * np.sinc(2 * pos * cutoff) - np.sinc(pos * cutoff) ** 2.0)
 
 
-def add_weights(projection, settings):
+def _add_weights(projection, settings):
     """Add weights to the projection according to the ray length traveled through a voxel
 
         Parameters
@@ -44,7 +51,6 @@ def add_weights(projection, settings):
     weights = settings.source_to_detector_dist / np.sqrt(
         settings.source_to_detector_dist ** 2. + uu ** 2. + vv ** 2.)
 
-
     return projection * weights
 
 
@@ -64,10 +70,10 @@ def ramp_filter_and_weight(projection, settings):
             The projections weighted by the ray length and filtered by ramp filter
 
         """
-    projections_weighted = add_weights(projection, settings)
+    projections_weighted = _add_weights(projection, settings)
 
     n_pixels_u, _ = np.shape(projections_weighted)
-    ramp_kernel = ramp_kernel_real(0.5, n_pixels_u)
+    ramp_kernel = _ramp_kernel_real(0.5, n_pixels_u)
 
     projections_filtered = np.zeros_like(projections_weighted)
 

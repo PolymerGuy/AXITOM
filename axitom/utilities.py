@@ -3,6 +3,13 @@ import natsort
 import os
 from imageio import imread
 
+""" Utilites
+
+This module contains various utility functions that does not have any other obvious home 
+
+"""
+
+
 def parse_xtekct_file(file_path):
     """Parse a X-tec-CT file into a dictionary
     Only = is considered valid separators
@@ -30,6 +37,7 @@ def parse_xtekct_file(file_path):
                 myvars[name.strip()] = var
 
     return myvars
+
 
 def find_center_of_gravity_in_radiogram(radiogram, background_internsity=0.9):
     """ Find axis of rotation in the radiogram.
