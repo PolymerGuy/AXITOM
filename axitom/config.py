@@ -16,7 +16,7 @@ class Config(object):
     def __init__(self, n_pixels_u, n_pixels_v, detector_size_u, detector_size_v, source_to_detector_dist,
                  source_to_object_dist, angular_inc=1, center_of_rot=0, **kwargs):
         """ Configuration object which contains all settings necessary for the forward projection
-            and tomographic reconstruction using the axitom algorithm.
+            and tomographic reconstruction.
 
         Parameters
         ----------
@@ -25,21 +25,17 @@ class Config(object):
         n_pixels_v : int
             Number of pixels in the u direction of the sensor
         detector_size_u : float
-            Detector size in the u direction
+            Detector size in the u direction [mm]
         detector_size_v : float
-            Detector size in the u direction
+            Detector size in the u direction [mm]
         source_to_detector_dist : float
-            Distance between source and detector
+            Distance between source and detector [mm]
         source_to_object_dist : float
-            Distance between source and object
+            Distance between source and object [mm]
         angular_inc : float
-            Angular increment in degrees used in the reconstruction
+            Angular increment used in the reconstruction [deg]
         center_of_rot : float
             Position of the rotation axis in pixels. 0 corresponds to the center of the image
-        Returns
-        -------
-        ndarray
-            The filter kernel
 
         NOTE: Any non valid arguments are neglected without warning
 
@@ -85,6 +81,19 @@ class Config(object):
                                       dtype=np.float64) - self.n_pixels_v / 2.) * self.pixel_size_v
 
     def with_param(self, **kwargs):
+        """ Get a clone of the object with the parameter changed and all calculations repeated
+
+            Parameters
+            ----------
+            kwargs :
+                The arguments of the config object that should be changed
+
+            Returns
+            -------
+            obj
+                Config object with new arguments set
+
+            """
         params = self.__dict__.copy()
 
         for arg, value in kwargs.items():
