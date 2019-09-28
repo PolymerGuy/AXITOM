@@ -181,4 +181,4 @@ def read_image(file_path, flat_corrected=False):
         image = np.average(image, axis=2)
     if flat_corrected:
         image = image / image.max()
-    return image.transpose()
+    return np.array(image).transpose()
