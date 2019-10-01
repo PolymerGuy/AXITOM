@@ -7,6 +7,9 @@
 [![MIT License][license-shield]][license-url]
 [![Documentation Status](https://readthedocs.org/projects/axitom/badge/?version=latest)](https://axitom.readthedocs.io/en/latest/?badge=latest)
 [![PyPI version](https://badge.fury.io/py/axitom.svg)](https://badge.fury.io/py/axitom)
+[![DOI](https://zenodo.org/badge/192409914.svg)](https://zenodo.org/badge/latestdoi/192409914)
+
+
 
 <!-- PROJECT LOGO -->
 <br />
