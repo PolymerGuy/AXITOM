@@ -7,7 +7,8 @@
 [![MIT License][license-shield]][license-url]
 [![Documentation Status](https://readthedocs.org/projects/axitom/badge/?version=latest)](https://axitom.readthedocs.io/en/latest/?badge=latest)
 [![PyPI version](https://badge.fury.io/py/axitom.svg)](https://badge.fury.io/py/axitom)
-[![DOI](https://zenodo.org/badge/192409914.svg)](https://zenodo.org/badge/latestdoi/192409914)
+[![DOI](https://joss.theoj.org/papers/10.21105/joss.01704/status.svg)](https://doi.org/10.21105/joss.01704)
+
 
 
 
